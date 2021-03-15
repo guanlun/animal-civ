@@ -34,8 +34,10 @@ public class MainGameManager : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonUp(0)) {
-            if (this.selectedHex) {
-                this.selectedHex.SetSelected(false);
+            foreach (List<GameObject> hexRow in this.hexGrid) {
+                foreach(GameObject hexObject in hexRow) {
+                    hexObject.GetComponent<Hex>().SetSelected(false);
+                }
             }
 
             RaycastHit hit;
@@ -45,8 +47,9 @@ public class MainGameManager : MonoBehaviour
                     Hex closestHex = this.GetClosestHexObjectAtPosition(hit.point);
                     if (closestHex) {
                         closestHex.SetSelected(true);
-
                         this.selectedHex = closestHex;
+
+                        this.GetAdjacentHexes(closestHex);
                     }
                 }
             }
@@ -92,5 +95,61 @@ public class MainGameManager : MonoBehaviour
         } else {
             return secondCandidate;
         }
+    }
+
+    List<Hex> GetAdjacentHexes(Hex hex) {
+        List<Hex> listOfAdjacentHexes = new List<Hex>();
+
+        int rowIdx = hex.rowIdx, colIdx = hex.colIdx;
+
+        if (rowIdx % 2 == 0) {
+            if (rowIdx > 0) {
+                if (colIdx > 0) {
+                    listOfAdjacentHexes.Add(this.hexGrid[rowIdx - 1][colIdx - 1].GetComponent<Hex>());
+                }
+                if (colIdx < this.numCols - 1) {
+                    listOfAdjacentHexes.Add(this.hexGrid[rowIdx - 1][colIdx].GetComponent<Hex>());
+                }
+            }
+
+            if (colIdx > 0) {
+                listOfAdjacentHexes.Add(this.hexGrid[rowIdx][colIdx - 1].GetComponent<Hex>());
+            }
+            if (colIdx < this.numCols - 1) {
+                listOfAdjacentHexes.Add(this.hexGrid[rowIdx][colIdx + 1].GetComponent<Hex>());
+            }
+
+            if (rowIdx < this.numRows - 1) {
+                if (colIdx > 0) {
+                    listOfAdjacentHexes.Add(this.hexGrid[rowIdx + 1][colIdx - 1].GetComponent<Hex>());
+                }
+                if (colIdx < this.numCols - 1) {
+                    listOfAdjacentHexes.Add(this.hexGrid[rowIdx + 1][colIdx].GetComponent<Hex>());
+                }
+            }
+        } else {
+            if (rowIdx > 0) {
+                listOfAdjacentHexes.Add(this.hexGrid[rowIdx - 1][colIdx].GetComponent<Hex>());
+                listOfAdjacentHexes.Add(this.hexGrid[rowIdx - 1][colIdx + 1].GetComponent<Hex>());
+            }
+
+            if (colIdx > 0) {
+                listOfAdjacentHexes.Add(this.hexGrid[rowIdx][colIdx - 1].GetComponent<Hex>());
+            }
+            if (colIdx < this.numCols - 2) {
+                listOfAdjacentHexes.Add(this.hexGrid[rowIdx][colIdx + 1].GetComponent<Hex>());
+            }
+
+            if (rowIdx < this.numRows - 1) {
+                listOfAdjacentHexes.Add(this.hexGrid[rowIdx + 1][colIdx].GetComponent<Hex>());
+                listOfAdjacentHexes.Add(this.hexGrid[rowIdx + 1][colIdx + 1].GetComponent<Hex>());
+            }
+        }
+
+        foreach (Hex adjacentHex in listOfAdjacentHexes) {
+            adjacentHex.SetAdjacent(true);
+        }
+
+        return listOfAdjacentHexes;
     }
 }

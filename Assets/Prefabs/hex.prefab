@@ -98,3 +98,5 @@ MonoBehaviour:
     type: 2}
   selectedStateMaterial: {fileID: 2100000, guid: ceef33abef3c7438ca7f11d3bdd7d1f7,
     type: 2}
+  adjacentStateMaterial: {fileID: 2100000, guid: 872104bda07ac4c78a7f2750029fdd4b,
+    type: 2}

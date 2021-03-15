@@ -9,6 +9,7 @@ public class Hex : MonoBehaviour {
 
     public Material defaultStateMaterial;
     public Material selectedStateMaterial;
+    public Material adjacentStateMaterial;
 
     void Start()
     {
@@ -18,6 +19,11 @@ public class Hex : MonoBehaviour {
     public void SetSelected(bool selected)
     {
         this.gameObject.GetComponent<Renderer>().material = selected ? selectedStateMaterial : defaultStateMaterial;
+    }
+
+    public void SetAdjacent(bool isAdjacent)
+    {
+        this.gameObject.GetComponent<Renderer>().material = isAdjacent ? adjacentStateMaterial : defaultStateMaterial;
     }
 
     public Vector3 GetCenterPos()
