@@ -49,7 +49,9 @@ public class MainGameManager : MonoBehaviour
                         closestHex.SetSelected(true);
                         this.selectedHex = closestHex;
 
-                        this.GetAdjacentHexes(closestHex);
+                        foreach (Hex adjacentHex in this.GetAdjacentHexes(closestHex)) {
+                            adjacentHex.SetAdjacent(true);
+                        }
                     }
                 }
             }
@@ -144,10 +146,6 @@ public class MainGameManager : MonoBehaviour
                 listOfAdjacentHexes.Add(this.hexGrid[rowIdx + 1][colIdx].GetComponent<Hex>());
                 listOfAdjacentHexes.Add(this.hexGrid[rowIdx + 1][colIdx + 1].GetComponent<Hex>());
             }
-        }
-
-        foreach (Hex adjacentHex in listOfAdjacentHexes) {
-            adjacentHex.SetAdjacent(true);
         }
 
         return listOfAdjacentHexes;
