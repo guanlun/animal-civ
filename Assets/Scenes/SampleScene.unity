@@ -152,6 +152,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hexGridPrefab: {fileID: 1006358528774260981, guid: f34203942614e49359f6f26cd74183ff,
     type: 3}
+  unitPrefab: {fileID: 3022386883644420232, guid: 2c1fe82aa40514ba8b929924a5d9b2d2,
+    type: 3}
   numRows: 5
   numCols: 6
 --- !u!4 &254623544

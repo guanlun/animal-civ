@@ -5,12 +5,14 @@ using UnityEngine;
 public class MainGameManager : MonoBehaviour
 {
     public GameObject hexGridPrefab;
+    public GameObject unitPrefab;
     public int numRows = 5;
     public int numCols = 6;
 
     private List<List<GameObject>> hexGrid = new List<List<GameObject>>();
 
     private Hex selectedHex = null;
+    private bool isUnitSelected = false;
 
     // Start is called before the first frame update
     void Start()
@@ -28,29 +30,43 @@ public class MainGameManager : MonoBehaviour
 
             this.hexGrid.Add(hexRow);
         }
+
+        GameObject unitGameObject1 = Instantiate(unitPrefab);
+        Unit unit1 = unitGameObject1.GetComponent<Unit>();
+        unit1.SetCurrentHex(this.hexGrid[1][1].GetComponent<Hex>());
+
+        GameObject unitGameObject2 = Instantiate(unitPrefab);
+        Unit unit2 = unitGameObject2.GetComponent<Unit>();
+        unit2.SetCurrentHex(this.hexGrid[2][1].GetComponent<Hex>());
     }
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonUp(0)) {
-            foreach (List<GameObject> hexRow in this.hexGrid) {
-                foreach(GameObject hexObject in hexRow) {
-                    hexObject.GetComponent<Hex>().SetSelected(false);
-                }
-            }
-
             RaycastHit hit;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit)) {
                 GameObject hitObject = hit.collider.gameObject;
                 if (hitObject.name == "HitPlane") {
-                    Hex closestHex = this.GetClosestHexObjectAtPosition(hit.point);
-                    if (closestHex) {
-                        closestHex.SetSelected(true);
-                        this.selectedHex = closestHex;
+                    Hex clickedHex = this.GetClosestHexObjectAtPosition(hit.point);
 
-                        foreach (Hex adjacentHex in this.GetAdjacentHexes(closestHex)) {
-                            adjacentHex.SetAdjacent(true);
+                    if (this.isUnitSelected) {
+                        if (clickedHex && clickedHex.isAdjacent && !clickedHex.unitOnHex) {
+                            this.ClearAllHexStates();
+                            this.selectedHex.unitOnHex.MoveToHex(clickedHex);
+
+                            this.isUnitSelected = false;
+                        }
+                    } else {
+                        if (clickedHex && clickedHex.unitOnHex) {
+                            this.ClearAllHexStates();
+                            clickedHex.SetSelected(true);
+                            this.selectedHex = clickedHex;
+                            this.isUnitSelected = true;
+
+                            foreach (Hex adjacentHex in this.GetAdjacentHexes(clickedHex)) {
+                                adjacentHex.SetAdjacent(true);
+                            }
                         }
                     }
                 }
@@ -58,7 +74,18 @@ public class MainGameManager : MonoBehaviour
         }
     }
 
-    Hex GetClosestHexObjectAtPosition(Vector3 pos)
+    private void ClearAllHexStates()
+    {
+        foreach (List<GameObject> hexRow in this.hexGrid) {
+            foreach(GameObject hexObject in hexRow) {
+                Hex hex = hexObject.GetComponent<Hex>();
+                hex.SetSelected(false);
+                hex.SetAdjacent(false);
+            }
+        }
+    }
+
+    private Hex GetClosestHexObjectAtPosition(Vector3 pos)
     {
         float rowPos = pos.z / Hex.ROW_SPACING;
         int firstRowIdx = (int)Mathf.Floor(rowPos);
@@ -99,7 +126,7 @@ public class MainGameManager : MonoBehaviour
         }
     }
 
-    List<Hex> GetAdjacentHexes(Hex hex) {
+    private List<Hex> GetAdjacentHexes(Hex hex) {
         List<Hex> listOfAdjacentHexes = new List<Hex>();
 
         int rowIdx = hex.rowIdx, colIdx = hex.colIdx;

@@ -1,11 +1,15 @@
 using UnityEngine;
 
 public class Hex : MonoBehaviour {
+    public Unit unitOnHex;
+
     public static float COLUMN_SPACING = 1.732f * 1.02f;
     public static float ROW_SPACING = 1.5f * 1.02f;
 
     public int rowIdx;
     public int colIdx;
+
+    public bool isAdjacent = false;
 
     public Material defaultStateMaterial;
     public Material selectedStateMaterial;
@@ -23,6 +27,7 @@ public class Hex : MonoBehaviour {
 
     public void SetAdjacent(bool isAdjacent)
     {
+        this.isAdjacent = isAdjacent;
         this.gameObject.GetComponent<Renderer>().material = isAdjacent ? adjacentStateMaterial : defaultStateMaterial;
     }
 
