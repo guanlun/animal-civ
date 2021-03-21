@@ -24,6 +24,7 @@ public class Unit : MonoBehaviour
         this.transform.rotation = Quaternion.LookRotation(hex.GetCenterPos() - this.gameObject.transform.position, Vector3.up);
         this.currentHex.unitOnHex = null;
         this.SetCurrentHex(hex);
+        this.remainingMoves--;
     }
 
     public void SetCurrentHex(Hex hex)

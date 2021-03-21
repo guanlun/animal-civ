@@ -11,12 +11,20 @@ public class MainGameManager : MonoBehaviour
 
     private List<List<GameObject>> hexGrid = new List<List<GameObject>>();
 
+    private List<Unit> units = new List<Unit>();
+
+    private Faction playerFaction;
+    private List<Faction> aiFactions = new List<Faction>();
+
     private Hex selectedHex = null;
     private bool isUnitSelected = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        HexUtils.numRows = this.numRows;
+        HexUtils.numCols = this.numCols;
+
         for (int rowIdx = 0; rowIdx < this.numRows; rowIdx++) {
             List<GameObject> hexRow = new List<GameObject>();
             for (int colIdx = 0; colIdx < (rowIdx % 2 == 0 ? this.numCols : this.numCols - 1); colIdx++) {
@@ -35,6 +43,9 @@ public class MainGameManager : MonoBehaviour
             this.hexGrid.Add(hexRow);
         }
 
+        this.playerFaction = new Faction(true);
+        this.aiFactions.Add(new Faction());
+
         GameObject unitGameObject1 = Instantiate(unitPrefab);
         Unit unit1 = unitGameObject1.GetComponent<Unit>();
         unit1.SetCurrentHex(this.hexGrid[1][1].GetComponent<Hex>());
@@ -42,6 +53,13 @@ public class MainGameManager : MonoBehaviour
         GameObject unitGameObject2 = Instantiate(unitPrefab);
         Unit unit2 = unitGameObject2.GetComponent<Unit>();
         unit2.SetCurrentHex(this.hexGrid[2][1].GetComponent<Hex>());
+
+        this.playerFaction.AddUnit(unit1);
+        this.playerFaction.AddUnit(unit2);
+
+        GameObject aiGameObject1 = Instantiate(unitPrefab);
+        Unit aiUnit1 = aiGameObject1.GetComponent<Unit>();
+        aiUnit1.SetCurrentHex(this.hexGrid[5][5].GetComponent<Hex>());
     }
 
     // Update is called once per frame
@@ -54,28 +72,41 @@ public class MainGameManager : MonoBehaviour
                 if (hitObject.name == "HitPlane") {
                     Hex clickedHex = this.GetClosestHexObjectAtPosition(hit.point);
 
-                    if (this.isUnitSelected) {
-                        if (clickedHex && clickedHex.isAdjacent && !clickedHex.unitOnHex) {
+                    if (clickedHex) {
+                        if (clickedHex.unitOnHex) {
                             this.ClearAllHexStates();
-                            this.selectedHex.unitOnHex.MoveToHex(clickedHex);
-
-                            this.isUnitSelected = false;
-                        }
-                    } else {
-                        if (clickedHex && clickedHex.unitOnHex) {
-                            this.ClearAllHexStates();
-                            clickedHex.SetSelected(true);
+                            clickedHex.SetSelected(true); // TODO: move selected unit state to unit
                             this.selectedHex = clickedHex;
                             this.isUnitSelected = true;
 
-                            foreach (Hex adjacentHex in this.GetAdjacentHexes(clickedHex)) {
-                                adjacentHex.SetAdjacent(true);
+                            if (clickedHex.unitOnHex.remainingMoves > 0) {
+                                foreach (Hex adjacentHex in this.GetAdjacentHexes(clickedHex)) {
+                                    adjacentHex.SetAdjacent(true);
+                                }
+                            }
+                        } else if (this.isUnitSelected) {
+                            if (clickedHex && clickedHex.isAdjacent && !clickedHex.unitOnHex) {
+                                this.ClearAllHexStates();
+                                this.selectedHex.unitOnHex.MoveToHex(clickedHex);
+
+                                this.isUnitSelected = false;
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    public void EndTurn() {
+        foreach (Faction aiFaction in this.aiFactions) {
+            aiFaction.StartTurn();
+        }
+
+        foreach (Unit unit in this.playerFaction.units) {
+            unit.ResetRemainingMoves();
+        }
+        this.ClearAllHexStates();
     }
 
     private void ClearAllHexStates()
@@ -133,50 +164,8 @@ public class MainGameManager : MonoBehaviour
     private List<Hex> GetAdjacentHexes(Hex hex) {
         List<Hex> listOfAdjacentHexes = new List<Hex>();
 
-        int rowIdx = hex.rowIdx, colIdx = hex.colIdx;
-
-        if (rowIdx % 2 == 0) {
-            if (rowIdx > 0) {
-                if (colIdx > 0) {
-                    listOfAdjacentHexes.Add(this.hexGrid[rowIdx - 1][colIdx - 1].GetComponent<Hex>());
-                }
-                if (colIdx < this.numCols - 1) {
-                    listOfAdjacentHexes.Add(this.hexGrid[rowIdx - 1][colIdx].GetComponent<Hex>());
-                }
-            }
-
-            if (colIdx > 0) {
-                listOfAdjacentHexes.Add(this.hexGrid[rowIdx][colIdx - 1].GetComponent<Hex>());
-            }
-            if (colIdx < this.numCols - 1) {
-                listOfAdjacentHexes.Add(this.hexGrid[rowIdx][colIdx + 1].GetComponent<Hex>());
-            }
-
-            if (rowIdx < this.numRows - 1) {
-                if (colIdx > 0) {
-                    listOfAdjacentHexes.Add(this.hexGrid[rowIdx + 1][colIdx - 1].GetComponent<Hex>());
-                }
-                if (colIdx < this.numCols - 1) {
-                    listOfAdjacentHexes.Add(this.hexGrid[rowIdx + 1][colIdx].GetComponent<Hex>());
-                }
-            }
-        } else {
-            if (rowIdx > 0) {
-                listOfAdjacentHexes.Add(this.hexGrid[rowIdx - 1][colIdx].GetComponent<Hex>());
-                listOfAdjacentHexes.Add(this.hexGrid[rowIdx - 1][colIdx + 1].GetComponent<Hex>());
-            }
-
-            if (colIdx > 0) {
-                listOfAdjacentHexes.Add(this.hexGrid[rowIdx][colIdx - 1].GetComponent<Hex>());
-            }
-            if (colIdx < this.numCols - 2) {
-                listOfAdjacentHexes.Add(this.hexGrid[rowIdx][colIdx + 1].GetComponent<Hex>());
-            }
-
-            if (rowIdx < this.numRows - 1) {
-                listOfAdjacentHexes.Add(this.hexGrid[rowIdx + 1][colIdx].GetComponent<Hex>());
-                listOfAdjacentHexes.Add(this.hexGrid[rowIdx + 1][colIdx + 1].GetComponent<Hex>());
-            }
+        foreach (HexIndex hexIndex in HexUtils.GetAdjacentHexes(hex.rowIdx, hex.colIdx)) {
+            listOfAdjacentHexes.Add(this.hexGrid[hexIndex.row][hexIndex.col].GetComponent<Hex>());
         }
 
         return listOfAdjacentHexes;
