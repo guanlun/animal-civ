@@ -6,8 +6,8 @@ public class MainGameManager : MonoBehaviour
 {
     public GameObject hexGridPrefab;
     public GameObject unitPrefab;
-    public int numRows = 5;
-    public int numCols = 6;
+    public int numRows;
+    public int numCols;
 
     private List<List<GameObject>> hexGrid = new List<List<GameObject>>();
 
@@ -24,6 +24,10 @@ public class MainGameManager : MonoBehaviour
                 Hex hex = hexGameObject.GetComponent<Hex>();
                 hex.rowIdx = rowIdx;
                 hex.colIdx = colIdx;
+
+                if (Random.Range(0, 10) < 2) {
+                    hex.SetTerrainType(TerrainType.Forest);
+                }
 
                 hexRow.Add(hexGameObject);
             }

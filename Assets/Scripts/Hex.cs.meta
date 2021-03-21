@@ -3,7 +3,12 @@ guid: 023e7cfc655f34dee9f445e5e1165b21
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - unitOnHex: {instanceID: 0}
+  - defaultStateMaterial: {instanceID: 0}
+  - selectedStateMaterial: {instanceID: 0}
+  - adjacentStateMaterial: {instanceID: 0}
+  - forestTerrainPrefab: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

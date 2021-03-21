@@ -1,5 +1,13 @@
 using UnityEngine;
 
+public enum TerrainType {
+    Grassland,
+    Forest,
+    Desert,
+    Water,
+    Snow,
+}
+
 public class Hex : MonoBehaviour {
     public Unit unitOnHex;
 
@@ -9,15 +17,27 @@ public class Hex : MonoBehaviour {
     public int rowIdx;
     public int colIdx;
 
+    private TerrainType terrainType;
+
     public bool isAdjacent = false;
 
     public Material defaultStateMaterial;
     public Material selectedStateMaterial;
     public Material adjacentStateMaterial;
 
+    public GameObject forestTerrainPrefab;
+
     void Start()
     {
         this.gameObject.GetComponent<Renderer>().material = defaultStateMaterial;
+    }
+
+    public void SetTerrainType(TerrainType terrainType) {
+        this.terrainType = terrainType;
+
+        if (this.terrainType == TerrainType.Forest) {
+            Instantiate(forestTerrainPrefab, this.transform.position, Quaternion.identity);
+        }
     }
 
     public void SetSelected(bool selected)

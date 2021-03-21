@@ -92,11 +92,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 023e7cfc655f34dee9f445e5e1165b21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitOnHex: {fileID: 0}
   rowIdx: 0
   colIdx: 0
+  isAdjacent: 0
   defaultStateMaterial: {fileID: 2100000, guid: f5c3dcbc4a392418d91b1bbf35eecba3,
     type: 2}
   selectedStateMaterial: {fileID: 2100000, guid: ceef33abef3c7438ca7f11d3bdd7d1f7,
     type: 2}
   adjacentStateMaterial: {fileID: 2100000, guid: 872104bda07ac4c78a7f2750029fdd4b,
     type: 2}
+  forestTerrainPrefab: {fileID: 4974554623220758470, guid: e53d58459472c464a8f4264d06533bdb,
+    type: 3}
