@@ -32,6 +32,12 @@ public class Unit : MonoBehaviour
         this.gameObject.transform.position = hex.GetCenterPos();
         hex.unitOnHex = this;
         this.currentHex = hex;
+
+        hex.SetExplored();
+
+        foreach (Hex adjacentHex in HexManager.GetAdjacentHexes(hex)) {
+            adjacentHex.SetExplored();
+        }
     }
 
     public void ResetRemainingMoves() {

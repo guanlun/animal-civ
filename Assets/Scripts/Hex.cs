@@ -27,9 +27,12 @@ public class Hex : MonoBehaviour {
 
     public GameObject forestTerrainPrefab;
 
-    void Start()
+    public GameObject fogOverlay;
+
+    void Awake()
     {
         this.gameObject.GetComponent<Renderer>().material = defaultStateMaterial;
+        this.fogOverlay = this.transform.Find("fog").gameObject;
     }
 
     public void SetTerrainType(TerrainType terrainType) {
@@ -60,5 +63,10 @@ public class Hex : MonoBehaviour {
             0,
             this.rowIdx * ROW_SPACING
         );
+    }
+
+    public void SetExplored()
+    {
+        this.fogOverlay.SetActive(false);
     }
 }

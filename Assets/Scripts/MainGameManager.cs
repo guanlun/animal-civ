@@ -9,8 +9,6 @@ public class MainGameManager : MonoBehaviour
     public int numRows;
     public int numCols;
 
-    private List<List<GameObject>> hexGrid = new List<List<GameObject>>();
-
     private List<Unit> units = new List<Unit>();
 
     private Faction playerFaction;
@@ -19,47 +17,31 @@ public class MainGameManager : MonoBehaviour
     private Hex selectedHex = null;
     private bool isUnitSelected = false;
 
+    void Awake()
+    {
+        HexManager.InitHexGrid(this.numRows, this.numCols, this.hexGridPrefab);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        HexUtils.numRows = this.numRows;
-        HexUtils.numCols = this.numCols;
-
-        for (int rowIdx = 0; rowIdx < this.numRows; rowIdx++) {
-            List<GameObject> hexRow = new List<GameObject>();
-            for (int colIdx = 0; colIdx < (rowIdx % 2 == 0 ? this.numCols : this.numCols - 1); colIdx++) {
-                GameObject hexGameObject = Instantiate(hexGridPrefab, new Vector3(colIdx * Hex.COLUMN_SPACING + rowIdx % 2 * Hex.COLUMN_SPACING / 2, 0, rowIdx * Hex.ROW_SPACING), Quaternion.identity);
-                Hex hex = hexGameObject.GetComponent<Hex>();
-                hex.rowIdx = rowIdx;
-                hex.colIdx = colIdx;
-
-                if (Random.Range(0, 10) < 2) {
-                    hex.SetTerrainType(TerrainType.Forest);
-                }
-
-                hexRow.Add(hexGameObject);
-            }
-
-            this.hexGrid.Add(hexRow);
-        }
-
         this.playerFaction = new Faction(true);
         this.aiFactions.Add(new Faction());
 
         GameObject unitGameObject1 = Instantiate(unitPrefab);
         Unit unit1 = unitGameObject1.GetComponent<Unit>();
-        unit1.SetCurrentHex(this.hexGrid[1][1].GetComponent<Hex>());
+        unit1.SetCurrentHex(HexManager.hexGrid[1][1].GetComponent<Hex>());
 
         GameObject unitGameObject2 = Instantiate(unitPrefab);
         Unit unit2 = unitGameObject2.GetComponent<Unit>();
-        unit2.SetCurrentHex(this.hexGrid[2][1].GetComponent<Hex>());
+        unit2.SetCurrentHex(HexManager.hexGrid[2][1].GetComponent<Hex>());
 
         this.playerFaction.AddUnit(unit1);
         this.playerFaction.AddUnit(unit2);
 
         GameObject aiGameObject1 = Instantiate(unitPrefab);
         Unit aiUnit1 = aiGameObject1.GetComponent<Unit>();
-        aiUnit1.SetCurrentHex(this.hexGrid[5][5].GetComponent<Hex>());
+        aiUnit1.SetCurrentHex(HexManager.hexGrid[5][5].GetComponent<Hex>());
     }
 
     // Update is called once per frame
@@ -80,7 +62,7 @@ public class MainGameManager : MonoBehaviour
                             this.isUnitSelected = true;
 
                             if (clickedHex.unitOnHex.remainingMoves > 0) {
-                                foreach (Hex adjacentHex in this.GetAdjacentHexes(clickedHex)) {
+                                foreach (Hex adjacentHex in HexManager.GetAdjacentHexes(clickedHex)) {
                                     adjacentHex.SetAdjacent(true);
                                 }
                             }
@@ -111,7 +93,7 @@ public class MainGameManager : MonoBehaviour
 
     private void ClearAllHexStates()
     {
-        foreach (List<GameObject> hexRow in this.hexGrid) {
+        foreach (List<GameObject> hexRow in HexManager.hexGrid) {
             foreach(GameObject hexObject in hexRow) {
                 Hex hex = hexObject.GetComponent<Hex>();
                 hex.SetSelected(false);
@@ -141,11 +123,11 @@ public class MainGameManager : MonoBehaviour
         }
 
         if (isFirstCandidateValid) {
-            firstCandidate = this.hexGrid[firstRowIdx][firstColIdx].GetComponent<Hex>();
+            firstCandidate = HexManager.hexGrid[firstRowIdx][firstColIdx].GetComponent<Hex>();
         }
 
         if (isSecondCandidateValid) {
-            secondCandidate = this.hexGrid[secondRowIdx][secondColIdx].GetComponent<Hex>();
+            secondCandidate = HexManager.hexGrid[secondRowIdx][secondColIdx].GetComponent<Hex>();
         }
 
         if (!isFirstCandidateValid) {
@@ -161,13 +143,13 @@ public class MainGameManager : MonoBehaviour
         }
     }
 
-    private List<Hex> GetAdjacentHexes(Hex hex) {
-        List<Hex> listOfAdjacentHexes = new List<Hex>();
+    // private List<Hex> GetAdjacentHexes(Hex hex) {
+    //     List<Hex> listOfAdjacentHexes = new List<Hex>();
 
-        foreach (HexIndex hexIndex in HexUtils.GetAdjacentHexes(hex.rowIdx, hex.colIdx)) {
-            listOfAdjacentHexes.Add(this.hexGrid[hexIndex.row][hexIndex.col].GetComponent<Hex>());
-        }
+    //     foreach (HexIndex hexIndex in HexUtils.GetAdjacentHexes(hex.rowIdx, hex.colIdx)) {
+    //         listOfAdjacentHexes.Add(HexManager.hexGrid[hexIndex.row][hexIndex.col].GetComponent<Hex>());
+    //     }
 
-        return listOfAdjacentHexes;
-    }
+    //     return listOfAdjacentHexes;
+    // }
 }
