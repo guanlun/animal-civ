@@ -1,22 +1,14 @@
 fileFormatVersion: 2
-guid: 3f2bbbdd0a9d04f699dcf5865bdcd0e7
+guid: 07c5f374ed8064e148e93ac7642256b7
 ModelImporter:
   serializedVersion: 19301
-  internalIDToNameTable:
-  - first:
-      74: -623603649343465320
-    second: Scene
+  internalIDToNameTable: []
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material
-    second: {fileID: 2100000, guid: 1b6134899b5a049caa39243d7e2fd3bc, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: No Name
-    second: {fileID: 2100000, guid: 226294cfa3dd442e89fa523889f27c03, type: 2}
+      name: LowPolyTex
+    second: {fileID: 2100000, guid: c88258b45976c4be8a07b52b653d2bc4, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
