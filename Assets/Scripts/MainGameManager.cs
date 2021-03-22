@@ -26,22 +26,24 @@ public class MainGameManager : MonoBehaviour
     void Start()
     {
         this.playerFaction = new Faction(true);
-        this.aiFactions.Add(new Faction());
 
         GameObject unitGameObject1 = Instantiate(unitPrefab);
         Unit unit1 = unitGameObject1.GetComponent<Unit>();
+        this.playerFaction.AddUnit(unit1);
         unit1.SetCurrentHex(HexManager.hexGrid[1][1].GetComponent<Hex>());
 
         GameObject unitGameObject2 = Instantiate(unitPrefab);
         Unit unit2 = unitGameObject2.GetComponent<Unit>();
+        this.playerFaction.AddUnit(unit2);
         unit2.SetCurrentHex(HexManager.hexGrid[2][1].GetComponent<Hex>());
 
-        this.playerFaction.AddUnit(unit1);
-        this.playerFaction.AddUnit(unit2);
-
+        Faction aiFaction1 = new Faction();
         GameObject aiGameObject1 = Instantiate(unitPrefab);
         Unit aiUnit1 = aiGameObject1.GetComponent<Unit>();
+        aiFaction1.AddUnit(aiUnit1);
         aiUnit1.SetCurrentHex(HexManager.hexGrid[5][5].GetComponent<Hex>());
+
+        this.aiFactions.Add(aiFaction1);
     }
 
     // Update is called once per frame

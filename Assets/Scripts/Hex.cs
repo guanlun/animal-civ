@@ -1,4 +1,6 @@
+
 using UnityEngine;
+using System.Collections.Generic;
 
 public enum TerrainType {
     Grassland,
@@ -27,7 +29,12 @@ public class Hex : MonoBehaviour {
 
     public GameObject forestTerrainPrefab;
 
+    // game object on top of the hex (e.g. terrain object, building, etc.)
+    public GameObject propGameObject;
+
     public GameObject fogOverlay;
+
+    public HashSet<Faction> exploredByFactions = new HashSet<Faction>();
 
     void Awake()
     {
@@ -39,7 +46,8 @@ public class Hex : MonoBehaviour {
         this.terrainType = terrainType;
 
         if (this.terrainType == TerrainType.Forest) {
-            Instantiate(forestTerrainPrefab, this.transform.position, Quaternion.identity);
+            this.propGameObject = Instantiate(forestTerrainPrefab, this.transform.position, Quaternion.identity);
+            this.propGameObject.SetActive(false);
         }
     }
 
@@ -65,8 +73,31 @@ public class Hex : MonoBehaviour {
         );
     }
 
-    public void SetExplored()
+    public void SetExplored(Faction exploringFaction)
     {
-        this.fogOverlay.SetActive(false);
+        this.exploredByFactions.Add(exploringFaction);
+        if (exploringFaction.isPlayerFaction) {
+            this.fogOverlay.SetActive(false);
+
+            if (this.propGameObject) {
+                // Not every hex has prop
+                this.propGameObject.SetActive(true);
+            }
+
+            if (this.unitOnHex) {
+                this.unitOnHex.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    public bool IsExploredByPlayer()
+    {
+        foreach (Faction faction in this.exploredByFactions) {
+            if (faction.isPlayerFaction) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

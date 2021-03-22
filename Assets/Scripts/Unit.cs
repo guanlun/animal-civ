@@ -6,6 +6,8 @@ public class Unit : MonoBehaviour
 {
     public Hex currentHex;
 
+    private Faction unitFaction;
+
     public int remainingMoves = 1;
 
     // Start is called before the first frame update
@@ -27,16 +29,24 @@ public class Unit : MonoBehaviour
         this.remainingMoves--;
     }
 
+    public void SetFaction(Faction faction)
+    {
+        this.unitFaction = faction;
+    }
+
     public void SetCurrentHex(Hex hex)
     {
         this.gameObject.transform.position = hex.GetCenterPos();
+
+        this.gameObject.SetActive(hex.IsExploredByPlayer());
+
         hex.unitOnHex = this;
         this.currentHex = hex;
 
-        hex.SetExplored();
+        hex.SetExplored(this.unitFaction);
 
         foreach (Hex adjacentHex in HexManager.GetAdjacentHexes(hex)) {
-            adjacentHex.SetExplored();
+            adjacentHex.SetExplored(this.unitFaction);
         }
     }
 

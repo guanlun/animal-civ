@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public class Faction
 {
-    public bool isPlayerFaction;
+    public bool isPlayerFaction = false;
     public List<Unit> units = new List<Unit>();
 
     public List<Hex> exploredHexes = new List<Hex>();
@@ -14,6 +14,7 @@ public class Faction
     public void AddUnit(Unit unit)
     {
         this.units.Add(unit);
+        unit.SetFaction(this);
     }
 
     public void StartTurn()
