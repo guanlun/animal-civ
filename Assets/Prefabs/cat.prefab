@@ -173,6 +173,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHex: {fileID: 0}
   remainingMoves: 1
+  standByMaterial: {fileID: 2100000, guid: c88258b45976c4be8a07b52b653d2bc4, type: 2}
+  outOfMoveMaterial: {fileID: 2100000, guid: 21d4b38013f154a7a9bbc22431256276, type: 2}
 --- !u!1 &3079222232365919747
 GameObject:
   m_ObjectHideFlags: 0

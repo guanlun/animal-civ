@@ -10,6 +10,16 @@ public class Unit : MonoBehaviour
 
     public int remainingMoves = 1;
 
+    private GameObject bodyGameObject;
+
+    public Material standByMaterial;
+    public Material outOfMoveMaterial;
+
+    void Awake()
+    {
+        this.bodyGameObject = this.transform.Find("CatBody").gameObject;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +37,10 @@ public class Unit : MonoBehaviour
         this.currentHex.unitOnHex = null;
         this.SetCurrentHex(hex);
         this.remainingMoves--;
+
+        if (this.remainingMoves == 0) {
+            this.bodyGameObject.GetComponent<SkinnedMeshRenderer>().material = outOfMoveMaterial;
+        }
     }
 
     public void SetFaction(Faction faction)
@@ -52,5 +66,6 @@ public class Unit : MonoBehaviour
 
     public void ResetRemainingMoves() {
         this.remainingMoves = 1;
+        this.bodyGameObject.GetComponent<SkinnedMeshRenderer>().material = standByMaterial;
     }
 }
