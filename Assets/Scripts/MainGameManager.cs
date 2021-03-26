@@ -6,6 +6,8 @@ public class MainGameManager : MonoBehaviour
 {
     public GameObject hexGridPrefab;
     public GameObject unitPrefab;
+
+    public GameObject lumberMillPrefab;
     public int numRows;
     public int numCols;
 
@@ -41,7 +43,7 @@ public class MainGameManager : MonoBehaviour
         GameObject aiGameObject1 = Instantiate(unitPrefab);
         Unit aiUnit1 = aiGameObject1.GetComponent<Unit>();
         aiFaction1.AddUnit(aiUnit1);
-        aiUnit1.SetCurrentHex(HexManager.hexGrid[5][5].GetComponent<Hex>());
+        aiUnit1.SetCurrentHex(HexManager.hexGrid[2][2].GetComponent<Hex>());
 
         this.aiFactions.Add(aiFaction1);
     }
@@ -54,7 +56,7 @@ public class MainGameManager : MonoBehaviour
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit)) {
                 GameObject hitObject = hit.collider.gameObject;
                 if (hitObject.name == "HitPlane") {
-                    Hex clickedHex = this.GetClosestHexObjectAtPosition(hit.point);
+                    Hex clickedHex = HexManager.GetClosestHexObjectAtPosition(hit.point);
 
                     if (clickedHex) {
                         if (clickedHex.unitOnHex) {
@@ -63,34 +65,30 @@ public class MainGameManager : MonoBehaviour
                             this.selectedHex = clickedHex;
                             this.isUnitSelected = true;
 
-                            if (clickedHex.unitOnHex.remainingMoves > 0) {
-                                foreach (Hex adjacentHex in HexManager.GetAdjacentHexes(clickedHex)) {
-                                    adjacentHex.SetAdjacent(true);
+                            if (clickedHex.unitOnHex.unitFaction.isPlayerFaction) {
+                                if (clickedHex.unitOnHex.remainingMoves > 0) {
+                                    foreach (Hex adjacentHex in HexManager.GetAdjacentHexes(clickedHex)) {
+                                        adjacentHex.SetAdjacent(true);
+                                    }
                                 }
                             }
                         } else if (this.isUnitSelected) {
-                            if (clickedHex && clickedHex.isAdjacent && !clickedHex.unitOnHex) {
+                            if (clickedHex && !clickedHex.unitOnHex) {
+                                if (clickedHex.isAdjacent) {
+                                    this.selectedHex.unitOnHex.MoveToHex(clickedHex);
+                                }
                                 this.ClearAllHexStates();
-                                this.selectedHex.unitOnHex.MoveToHex(clickedHex);
-
                                 this.isUnitSelected = false;
                             }
                         }
+                    } else {
+                        // not clicked on any hexes
+                        this.ClearAllHexStates();
+                        this.isUnitSelected = false;
                     }
                 }
             }
         }
-    }
-
-    public void EndTurn() {
-        foreach (Faction aiFaction in this.aiFactions) {
-            aiFaction.StartTurn();
-        }
-
-        foreach (Unit unit in this.playerFaction.units) {
-            unit.ResetRemainingMoves();
-        }
-        this.ClearAllHexStates();
     }
 
     private void ClearAllHexStates()
@@ -104,54 +102,20 @@ public class MainGameManager : MonoBehaviour
         }
     }
 
-    private Hex GetClosestHexObjectAtPosition(Vector3 pos)
+    public void EndTurn()
     {
-        float rowPos = pos.z / Hex.ROW_SPACING;
-        int firstRowIdx = (int)Mathf.Floor(rowPos);
-        int secondRowIdx = (int)Mathf.Ceil(rowPos);
-
-        bool isFirstRowEven = firstRowIdx % 2 == 0;
-
-        float colPos = pos.x / Hex.COLUMN_SPACING;
-        int firstColIdx = (int)Mathf.Round(colPos - (isFirstRowEven ? 0f : 0.5f));
-        int secondColIdx = (int)Mathf.Round(colPos - (isFirstRowEven ? 0.5f : 0f));
-
-        bool isFirstCandidateValid = firstRowIdx >= 0 && firstRowIdx < this.numRows && firstColIdx >= 0 && firstColIdx < this.numCols - (isFirstRowEven ? 0 : 1);
-        bool isSecondCandidateValid = secondRowIdx >= 0 && secondRowIdx < this.numRows && secondColIdx >= 0 && secondColIdx < this.numCols - (isFirstRowEven ? 1 : 0);
-
-        Hex firstCandidate = null, secondCandidate = null;
-        if (!isFirstCandidateValid && !isSecondCandidateValid) {
-            return null;
+        foreach (Faction aiFaction in this.aiFactions) {
+            aiFaction.StartTurn();
         }
 
-        if (isFirstCandidateValid) {
-            firstCandidate = HexManager.hexGrid[firstRowIdx][firstColIdx].GetComponent<Hex>();
+        foreach (Unit unit in this.playerFaction.units) {
+            unit.ResetRemainingMoves();
         }
-
-        if (isSecondCandidateValid) {
-            secondCandidate = HexManager.hexGrid[secondRowIdx][secondColIdx].GetComponent<Hex>();
-        }
-
-        if (!isFirstCandidateValid) {
-            return secondCandidate;
-        } else if (!isSecondCandidateValid) {
-            return firstCandidate;
-        }
-
-        if (Vector3.Distance(firstCandidate.GetCenterPos(), pos) < Vector3.Distance(secondCandidate.GetCenterPos(), pos)) {
-            return firstCandidate;
-        } else {
-            return secondCandidate;
-        }
+        this.ClearAllHexStates();
     }
 
-    // private List<Hex> GetAdjacentHexes(Hex hex) {
-    //     List<Hex> listOfAdjacentHexes = new List<Hex>();
-
-    //     foreach (HexIndex hexIndex in HexUtils.GetAdjacentHexes(hex.rowIdx, hex.colIdx)) {
-    //         listOfAdjacentHexes.Add(HexManager.hexGrid[hexIndex.row][hexIndex.col].GetComponent<Hex>());
-    //     }
-
-    //     return listOfAdjacentHexes;
-    // }
+    public void Build()
+    {
+        GameObject lumberMillGameObject = Instantiate(this.lumberMillPrefab, this.selectedHex.transform.position, Quaternion.identity);
+    }
 }

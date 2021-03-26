@@ -81,4 +81,45 @@ public class HexManager
 
         return listOfAdjacentHexes;
     }
+
+    public static Hex GetClosestHexObjectAtPosition(Vector3 pos)
+    {
+        float rowPos = pos.z / Hex.ROW_SPACING;
+        int firstRowIdx = (int)Mathf.Floor(rowPos);
+        int secondRowIdx = (int)Mathf.Ceil(rowPos);
+
+        bool isFirstRowEven = firstRowIdx % 2 == 0;
+
+        float colPos = pos.x / Hex.COLUMN_SPACING;
+        int firstColIdx = (int)Mathf.Round(colPos - (isFirstRowEven ? 0f : 0.5f));
+        int secondColIdx = (int)Mathf.Round(colPos - (isFirstRowEven ? 0.5f : 0f));
+
+        bool isFirstCandidateValid = firstRowIdx >= 0 && firstRowIdx < numRows && firstColIdx >= 0 && firstColIdx < numCols - (isFirstRowEven ? 0 : 1);
+        bool isSecondCandidateValid = secondRowIdx >= 0 && secondRowIdx < numRows && secondColIdx >= 0 && secondColIdx < numCols - (isFirstRowEven ? 1 : 0);
+
+        Hex firstCandidate = null, secondCandidate = null;
+        if (!isFirstCandidateValid && !isSecondCandidateValid) {
+            return null;
+        }
+
+        if (isFirstCandidateValid) {
+            firstCandidate = HexManager.hexGrid[firstRowIdx][firstColIdx].GetComponent<Hex>();
+        }
+
+        if (isSecondCandidateValid) {
+            secondCandidate = HexManager.hexGrid[secondRowIdx][secondColIdx].GetComponent<Hex>();
+        }
+
+        if (!isFirstCandidateValid) {
+            return secondCandidate;
+        } else if (!isSecondCandidateValid) {
+            return firstCandidate;
+        }
+
+        if (Vector3.Distance(firstCandidate.GetCenterPos(), pos) < Vector3.Distance(secondCandidate.GetCenterPos(), pos)) {
+            return firstCandidate;
+        } else {
+            return secondCandidate;
+        }
+    }
 }

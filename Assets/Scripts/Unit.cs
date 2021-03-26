@@ -6,7 +6,7 @@ public class Unit : MonoBehaviour
 {
     public Hex currentHex;
 
-    private Faction unitFaction;
+    public Faction unitFaction;
 
     public int remainingMoves = 1;
 
