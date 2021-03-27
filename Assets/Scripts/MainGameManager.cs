@@ -16,7 +16,7 @@ public class MainGameManager : MonoBehaviour
     private Faction playerFaction;
     private List<Faction> aiFactions = new List<Faction>();
 
-    private Hex selectedHex = null;
+    private Unit selectedUnit = null;
     private bool isUnitSelected = false;
 
     void Awake()
@@ -62,7 +62,7 @@ public class MainGameManager : MonoBehaviour
                         if (clickedHex.unitOnHex) {
                             this.ClearAllHexStates();
                             clickedHex.SetSelected(true); // TODO: move selected unit state to unit
-                            this.selectedHex = clickedHex;
+                            this.selectedUnit = clickedHex.unitOnHex;
                             this.isUnitSelected = true;
 
                             if (clickedHex.unitOnHex.unitFaction.isPlayerFaction) {
@@ -75,7 +75,7 @@ public class MainGameManager : MonoBehaviour
                         } else if (this.isUnitSelected) {
                             if (clickedHex && !clickedHex.unitOnHex) {
                                 if (clickedHex.isAdjacent) {
-                                    this.selectedHex.unitOnHex.MoveToHex(clickedHex);
+                                    this.selectedUnit.MoveToHex(clickedHex);
                                 }
                                 this.ClearAllHexStates();
                                 this.isUnitSelected = false;
@@ -116,6 +116,19 @@ public class MainGameManager : MonoBehaviour
 
     public void Build()
     {
-        GameObject lumberMillGameObject = Instantiate(this.lumberMillPrefab, this.selectedHex.transform.position, Quaternion.identity);
+        Hex currentHex = this.selectedUnit.currentHex;
+
+        if (currentHex.buildingOnHex) {
+            // TODO: make sure it's my own building, what do we do if it's enemy building?
+            // TODO: show UI asking if player wants to replace building
+            Destroy(currentHex.buildingOnHex.gameObject);
+
+            // TODO: remove from player faction
+        }
+
+        GameObject lumberMillGameObject = Instantiate(this.lumberMillPrefab, currentHex.transform.position, Quaternion.identity);
+        currentHex.buildingOnHex = lumberMillGameObject.GetComponent<LumberMill>();
+
+        this.playerFaction.AddBuilding(currentHex.buildingOnHex);
     }
 }

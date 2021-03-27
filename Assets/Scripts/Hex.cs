@@ -13,6 +13,8 @@ public enum TerrainType {
 public class Hex : MonoBehaviour {
     public Unit unitOnHex;
 
+    public Buidling buildingOnHex;
+
     public static float COLUMN_SPACING = 1.732f * 1.02f;
     public static float ROW_SPACING = 1.5f * 1.02f;
 
