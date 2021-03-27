@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MainGameManager : MonoBehaviour
 {
+    public GameObject UICanvas;
+    private UIManager uiManager;
+
     public GameObject hexGridPrefab;
     public GameObject unitPrefab;
 
@@ -22,6 +25,8 @@ public class MainGameManager : MonoBehaviour
     void Awake()
     {
         HexManager.InitHexGrid(this.numRows, this.numCols, this.hexGridPrefab);
+
+        this.uiManager = UICanvas.GetComponent<UIManager>();
     }
 
     // Start is called before the first frame update
@@ -112,6 +117,8 @@ public class MainGameManager : MonoBehaviour
             unit.ResetRemainingMoves();
         }
         this.ClearAllHexStates();
+
+        this.uiManager.SetWoodValue(10);
     }
 
     public void Build()
