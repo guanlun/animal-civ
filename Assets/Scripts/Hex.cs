@@ -24,7 +24,7 @@ public class Hex : MonoBehaviour {
 
     private TerrainType terrainType;
 
-    public bool isAdjacent = false;
+    public bool isMovable = false;
 
     public Material defaultStateMaterial;
     public Material selectedStateMaterial;
@@ -61,7 +61,7 @@ public class Hex : MonoBehaviour {
 
     public void SetAdjacent(bool isAdjacent)
     {
-        this.isAdjacent = isAdjacent;
+        this.isMovable = isAdjacent;
         this.gameObject.GetComponent<Renderer>().material = isAdjacent ? adjacentStateMaterial : defaultStateMaterial;
     }
 

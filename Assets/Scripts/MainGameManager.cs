@@ -66,7 +66,25 @@ public class MainGameManager : MonoBehaviour
                     Hex clickedHex = HexManager.GetClosestHexObjectAtPosition(hit.point);
 
                     if (clickedHex) {
-                        if (clickedHex.unitOnHex) {
+                        if (this.isUnitSelected) {
+                            if (clickedHex) {
+                                Unit unitOnHex = clickedHex.unitOnHex;
+                                if (unitOnHex) {
+                                    if (unitOnHex.unitFaction == this.selectedUnit.unitFaction) { // enemy unit
+                                        // TODO: friendly unit action
+                                    } else {
+                                        this.selectedUnit.AttackTarget(unitOnHex);
+                                    }
+                                } else {
+                                    if (clickedHex.isMovable) {
+                                        this.selectedUnit.MoveToHex(clickedHex);
+                                    }
+                                }
+
+                                this.ClearActiveStates();
+                                this.isUnitSelected = false;
+                            }
+                        } else if (clickedHex.unitOnHex) {
                             this.ClearActiveStates();
                             clickedHex.SetSelected(true); // TODO: move selected unit state to unit
                             this.selectedUnit = clickedHex.unitOnHex;
@@ -84,14 +102,6 @@ public class MainGameManager : MonoBehaviour
                                         }
                                     }
                                 }
-                            }
-                        } else if (this.isUnitSelected) {
-                            if (clickedHex && !clickedHex.unitOnHex) {
-                                if (clickedHex.isAdjacent) {
-                                    this.selectedUnit.MoveToHex(clickedHex);
-                                }
-                                this.ClearActiveStates();
-                                this.isUnitSelected = false;
                             }
                         }
                     } else {

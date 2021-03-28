@@ -48,6 +48,7 @@ public class Unit : MonoBehaviour
     public void AttackTarget(Unit targetUnit)
     {
         // TODO
+        Destroy(targetUnit.gameObject);
     }
 
     public void SetFaction(Faction faction)
