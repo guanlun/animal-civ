@@ -11,6 +11,7 @@ public class Unit : MonoBehaviour
     public int remainingMoves = 1;
 
     private GameObject bodyGameObject;
+    private GameObject attackTargetIndicatorGameObject;
 
     public Material standByMaterial;
     public Material outOfMoveMaterial;
@@ -18,6 +19,7 @@ public class Unit : MonoBehaviour
     void Awake()
     {
         this.bodyGameObject = this.transform.Find("CatBody").gameObject;
+        this.attackTargetIndicatorGameObject = this.transform.Find("AttackTargetIndicator").gameObject;
     }
 
     // Start is called before the first frame update
@@ -69,8 +71,14 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void ResetRemainingMoves() {
+    public void ResetRemainingMoves()
+    {
         this.remainingMoves = 1;
         this.bodyGameObject.GetComponent<SkinnedMeshRenderer>().material = standByMaterial;
+    }
+
+    public void SetAttackTargetIndicatorActive(bool active)
+    {
+        this.attackTargetIndicatorGameObject.SetActive(active);
     }
 }

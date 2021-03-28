@@ -16,6 +16,8 @@ public class MainGameManager : MonoBehaviour
 
     private List<Unit> units = new List<Unit>();
 
+    private List<Unit> attackableUnits = new List<Unit>();
+
     private Faction playerFaction;
     private List<Faction> aiFactions = new List<Faction>();
 
@@ -65,15 +67,21 @@ public class MainGameManager : MonoBehaviour
 
                     if (clickedHex) {
                         if (clickedHex.unitOnHex) {
-                            this.ClearAllHexStates();
+                            this.ClearActiveStates();
                             clickedHex.SetSelected(true); // TODO: move selected unit state to unit
                             this.selectedUnit = clickedHex.unitOnHex;
                             this.isUnitSelected = true;
 
                             if (clickedHex.unitOnHex.unitFaction.isPlayerFaction) {
                                 if (clickedHex.unitOnHex.remainingMoves > 0) {
-                                    foreach (Hex adjacentHex in HexManager.GetHexesByMovementDistance(clickedHex, 2)) {
-                                        adjacentHex.SetAdjacent(true);
+                                    foreach (Hex reachableHex in HexManager.GetHexesByMovementDistance(clickedHex, 2)) {
+                                        reachableHex.SetAdjacent(true);
+
+                                        Unit unitOnHex = reachableHex.unitOnHex;
+                                        if (unitOnHex && unitOnHex.unitFaction != this.selectedUnit.unitFaction) { // enemy unit
+                                            unitOnHex.SetAttackTargetIndicatorActive(true);
+                                            this.attackableUnits.Add(unitOnHex);
+                                        }
                                     }
                                 }
                             }
@@ -82,13 +90,13 @@ public class MainGameManager : MonoBehaviour
                                 if (clickedHex.isAdjacent) {
                                     this.selectedUnit.MoveToHex(clickedHex);
                                 }
-                                this.ClearAllHexStates();
+                                this.ClearActiveStates();
                                 this.isUnitSelected = false;
                             }
                         }
                     } else {
                         // not clicked on any hexes
-                        this.ClearAllHexStates();
+                        this.ClearActiveStates();
                         this.isUnitSelected = false;
                     }
                 }
@@ -96,7 +104,7 @@ public class MainGameManager : MonoBehaviour
         }
     }
 
-    private void ClearAllHexStates()
+    private void ClearActiveStates()
     {
         foreach (List<GameObject> hexRow in HexManager.hexGrid) {
             foreach(GameObject hexObject in hexRow) {
@@ -105,6 +113,12 @@ public class MainGameManager : MonoBehaviour
                 hex.SetAdjacent(false);
             }
         }
+
+        foreach (Unit attackableUnit in this.attackableUnits) {
+            attackableUnit.SetAttackTargetIndicatorActive(false);
+        }
+
+        attackableUnits.Clear();
     }
 
     public void EndTurn()
@@ -112,7 +126,7 @@ public class MainGameManager : MonoBehaviour
         foreach (Unit unit in this.playerFaction.units) {
             unit.ResetRemainingMoves();
         }
-        this.ClearAllHexStates();
+        this.ClearActiveStates();
 
         foreach (Buidling buidling in this.playerFaction.buildings) {
             // TODO: if resource building, add resources
