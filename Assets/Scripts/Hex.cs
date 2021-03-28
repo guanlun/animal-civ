@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public enum TerrainType {
     Grassland,
     Forest,
+    Hill,
     Desert,
     Water,
     Snow,
@@ -101,5 +102,16 @@ public class Hex : MonoBehaviour {
         }
 
         return false;
+    }
+
+    public int GetMovementCost()
+    {
+        switch (this.terrainType) {
+            case TerrainType.Forest:
+            case TerrainType.Hill:
+                return 2;
+            default:
+                return 1;
+        }
     }
 }

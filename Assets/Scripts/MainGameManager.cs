@@ -72,7 +72,7 @@ public class MainGameManager : MonoBehaviour
 
                             if (clickedHex.unitOnHex.unitFaction.isPlayerFaction) {
                                 if (clickedHex.unitOnHex.remainingMoves > 0) {
-                                    foreach (Hex adjacentHex in HexManager.GetAdjacentHexes(clickedHex)) {
+                                    foreach (Hex adjacentHex in HexManager.GetHexesByMovementDistance(clickedHex, 2)) {
                                         adjacentHex.SetAdjacent(true);
                                     }
                                 }
@@ -109,16 +109,19 @@ public class MainGameManager : MonoBehaviour
 
     public void EndTurn()
     {
-        foreach (Faction aiFaction in this.aiFactions) {
-            aiFaction.StartTurn();
-        }
-
         foreach (Unit unit in this.playerFaction.units) {
             unit.ResetRemainingMoves();
         }
         this.ClearAllHexStates();
 
-        this.uiManager.SetWoodValue(10);
+        foreach (Buidling buidling in this.playerFaction.buildings) {
+            // TODO: if resource building, add resources
+            this.uiManager.SetWoodValue(10);
+        }
+
+        foreach (Faction aiFaction in this.aiFactions) {
+            aiFaction.StartTurn();
+        }
     }
 
     public void Build()

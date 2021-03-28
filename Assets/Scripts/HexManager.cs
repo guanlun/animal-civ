@@ -30,56 +30,79 @@ public class HexManager
             hexGrid.Add(hexRow);
         }
     }
-    public static List<Hex> GetAdjacentHexes(Hex hex)
+
+    public static HashSet<Hex> GetHexesByMovementDistance(Hex hex, int distance)
+    {
+        HashSet<Hex> results = new HashSet<Hex>();
+        GetHexesByMovementDistanceRecur(hex, distance, results);
+
+        // remove the original hex
+        results.Remove(hex);
+        return results;
+    }
+
+    private static void GetHexesByMovementDistanceRecur(Hex hex, int distance, HashSet<Hex> existingHexes)
+    {
+        if (distance <= 0) {
+            return;
+        }
+
+        foreach (Hex adjacentHex in GetAdjacentHexes(hex)) {
+            existingHexes.Add(adjacentHex);
+            GetHexesByMovementDistanceRecur(adjacentHex, distance - adjacentHex.GetMovementCost(), existingHexes);
+        }
+    }
+
+    public static HashSet<Hex> GetAdjacentHexes(Hex hex)
     {
         int rowIdx = hex.rowIdx, colIdx = hex.colIdx;
-        List<Hex> listOfAdjacentHexes = new List<Hex>();
+        HashSet<Hex> adjacentHexes = new HashSet<Hex>();
 
         if (rowIdx % 2 == 0) {
             if (rowIdx > 0) {
                 if (colIdx > 0) {
-                    listOfAdjacentHexes.Add(hexGrid[rowIdx - 1][colIdx - 1].GetComponent<Hex>());
+                    adjacentHexes.Add(hexGrid[rowIdx - 1][colIdx - 1].GetComponent<Hex>());
                 }
                 if (colIdx < numCols - 1) {
-                    listOfAdjacentHexes.Add(hexGrid[rowIdx - 1][colIdx].GetComponent<Hex>());
+                    adjacentHexes.Add(hexGrid[rowIdx - 1][colIdx].GetComponent<Hex>());
                 }
             }
 
             if (colIdx > 0) {
-                listOfAdjacentHexes.Add(hexGrid[rowIdx][colIdx - 1].GetComponent<Hex>());
+                adjacentHexes.Add(hexGrid[rowIdx][colIdx - 1].GetComponent<Hex>());
             }
             if (colIdx < numCols - 1) {
-                listOfAdjacentHexes.Add(hexGrid[rowIdx][colIdx + 1].GetComponent<Hex>());
+                adjacentHexes.Add(hexGrid[rowIdx][colIdx + 1].GetComponent<Hex>());
             }
 
             if (rowIdx < numRows - 1) {
                 if (colIdx > 0) {
-                    listOfAdjacentHexes.Add(hexGrid[rowIdx + 1][colIdx - 1].GetComponent<Hex>());
+                    adjacentHexes.Add(hexGrid[rowIdx + 1][colIdx - 1].GetComponent<Hex>());
                 }
                 if (colIdx < numCols - 1) {
-                    listOfAdjacentHexes.Add(hexGrid[rowIdx + 1][colIdx].GetComponent<Hex>());
+                    adjacentHexes.Add(hexGrid[rowIdx + 1][colIdx].GetComponent<Hex>());
                 }
             }
         } else {
             if (rowIdx > 0) {
-                listOfAdjacentHexes.Add(hexGrid[rowIdx - 1][colIdx].GetComponent<Hex>());
-                listOfAdjacentHexes.Add(hexGrid[rowIdx - 1][colIdx + 1].GetComponent<Hex>());
+                adjacentHexes.Add(hexGrid[rowIdx - 1][colIdx].GetComponent<Hex>());
+                adjacentHexes.Add(hexGrid[rowIdx - 1][colIdx + 1].GetComponent<Hex>());
             }
 
             if (colIdx > 0) {
-                listOfAdjacentHexes.Add(hexGrid[rowIdx][colIdx - 1].GetComponent<Hex>());
+                adjacentHexes.Add(hexGrid[rowIdx][colIdx - 1].GetComponent<Hex>());
             }
             if (colIdx < numCols - 2) {
-                listOfAdjacentHexes.Add(hexGrid[rowIdx][colIdx + 1].GetComponent<Hex>());
+                adjacentHexes.Add(hexGrid[rowIdx][colIdx + 1].GetComponent<Hex>());
             }
 
             if (rowIdx < numRows - 1) {
-                listOfAdjacentHexes.Add(hexGrid[rowIdx + 1][colIdx].GetComponent<Hex>());
-                listOfAdjacentHexes.Add(hexGrid[rowIdx + 1][colIdx + 1].GetComponent<Hex>());
+                adjacentHexes.Add(hexGrid[rowIdx + 1][colIdx].GetComponent<Hex>());
+                adjacentHexes.Add(hexGrid[rowIdx + 1][colIdx + 1].GetComponent<Hex>());
             }
         }
 
-        return listOfAdjacentHexes;
+        return adjacentHexes;
     }
 
     public static Hex GetClosestHexObjectAtPosition(Vector3 pos)

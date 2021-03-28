@@ -32,7 +32,8 @@ public class Unit : MonoBehaviour
 
     }
 
-    public void MoveToHex(Hex hex) {
+    public void MoveToHex(Hex hex)
+    {
         this.transform.rotation = Quaternion.LookRotation(hex.GetCenterPos() - this.gameObject.transform.position, Vector3.up);
         this.currentHex.unitOnHex = null;
         this.SetCurrentHex(hex);
@@ -41,6 +42,10 @@ public class Unit : MonoBehaviour
         if (this.remainingMoves == 0) {
             this.bodyGameObject.GetComponent<SkinnedMeshRenderer>().material = outOfMoveMaterial;
         }
+    }
+    public void AttackTarget(Unit targetUnit)
+    {
+        // TODO
     }
 
     public void SetFaction(Faction faction)
