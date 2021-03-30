@@ -7,7 +7,7 @@ public class HexManager
     public static int numRows;
     public static int numCols;
 
-    public static void InitHexGrid(int rowCount, int colCount, GameObject hexGridPrefab)
+    public static void InitHexGrid(int rowCount, int colCount, GameObject hexGridParent, GameObject hexGridPrefab)
     {
         numRows = rowCount;
         numCols = colCount;
@@ -16,6 +16,7 @@ public class HexManager
             List<GameObject> hexRow = new List<GameObject>();
             for (int colIdx = 0; colIdx < (rowIdx % 2 == 0 ? numCols : numCols - 1); colIdx++) {
                 GameObject hexGameObject = GameObject.Instantiate(hexGridPrefab, new Vector3(colIdx * Hex.COLUMN_SPACING + rowIdx % 2 * Hex.COLUMN_SPACING / 2, 0, rowIdx * Hex.ROW_SPACING), Quaternion.identity);
+                hexGameObject.transform.parent = hexGridParent.transform;
                 Hex hex = hexGameObject.GetComponent<Hex>();
                 hex.rowIdx = rowIdx;
                 hex.colIdx = colIdx;

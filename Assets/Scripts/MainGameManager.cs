@@ -7,6 +7,8 @@ public class MainGameManager : MonoBehaviour
     public GameObject UICanvas;
     private UIManager uiManager;
 
+    public GameObject hexGridParent;
+
     public GameObject hexGridPrefab;
     public GameObject unitPrefab;
 
@@ -26,7 +28,7 @@ public class MainGameManager : MonoBehaviour
 
     void Awake()
     {
-        HexManager.InitHexGrid(this.numRows, this.numCols, this.hexGridPrefab);
+        HexManager.InitHexGrid(this.numRows, this.numCols, this.hexGridParent, this.hexGridPrefab);
 
         this.uiManager = UICanvas.GetComponent<UIManager>();
     }

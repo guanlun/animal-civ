@@ -16,6 +16,13 @@ public class Unit : MonoBehaviour
     public Material standByMaterial;
     public Material outOfMoveMaterial;
 
+    private bool isMoving = false;
+    private Vector3 movingToPosition;
+    private Vector3 movingFromPosition;
+
+    private float moveDuration = 0.15f;
+    private float moveStartTime;
+
     void Awake()
     {
         this.bodyGameObject = this.transform.Find("CatBody").gameObject;
@@ -31,14 +38,30 @@ public class Unit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (this.isMoving) {
+            float moveInterpolation = (Time.time - this.moveStartTime) / this.moveDuration;
+            if (moveInterpolation >= 1) {
+                this.transform.position = this.movingToPosition;
 
+                this.isMoving = false;
+            } else {
+                this.transform.position = Vector3.Lerp(this.movingFromPosition, this.movingToPosition, moveInterpolation);
+            }
+        }
     }
 
     public void MoveToHex(Hex hex)
     {
         this.transform.rotation = Quaternion.LookRotation(hex.GetCenterPos() - this.gameObject.transform.position, Vector3.up);
         this.currentHex.unitOnHex = null;
-        this.SetCurrentHex(hex);
+        this.SetCurrentHex(hex, true);
+
+        // Start the move animation
+        this.isMoving = true;
+        this.movingToPosition = hex.transform.position;
+        this.movingFromPosition = this.transform.position;
+        this.moveStartTime = Time.time;
+
         this.remainingMoves--;
 
         if (this.remainingMoves == 0) {
@@ -56,10 +79,14 @@ public class Unit : MonoBehaviour
         this.unitFaction = faction;
     }
 
-    public void SetCurrentHex(Hex hex)
+    public void SetCurrentHex(Hex hex, bool animate = false)
     {
-        this.gameObject.transform.position = hex.GetCenterPos();
+        if (!animate) {
+            this.transform.position = hex.GetCenterPos();
+        }
 
+        // When setting current hex during unit initialization, only show units that are located on explored hexes
+        // (units in my faction and very close-by enemy units)
         this.gameObject.SetActive(hex.IsExploredByPlayer());
 
         hex.unitOnHex = this;
