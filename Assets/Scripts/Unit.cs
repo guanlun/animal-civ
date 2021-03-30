@@ -57,10 +57,7 @@ public class Unit : MonoBehaviour
         this.SetCurrentHex(hex, true);
 
         // Start the move animation
-        this.isMoving = true;
-        this.movingToPosition = hex.transform.position;
-        this.movingFromPosition = this.transform.position;
-        this.moveStartTime = Time.time;
+        this.AnimateMoveTo(hex.transform.position);
 
         this.remainingMoves--;
 
@@ -68,10 +65,25 @@ public class Unit : MonoBehaviour
             this.bodyGameObject.GetComponent<SkinnedMeshRenderer>().material = outOfMoveMaterial;
         }
     }
+
+    public void AnimateMoveTo(Vector3 targetPosition)
+    {
+        this.isMoving = true;
+        this.movingToPosition = targetPosition;
+        this.movingFromPosition = this.transform.position;
+        this.moveStartTime = Time.time;
+    }
     public void AttackTarget(Unit targetUnit)
     {
+        Vector3 myPosition = this.transform.position;
+        Vector3 targetPosition = targetUnit.transform.position;
+        this.transform.rotation = Quaternion.LookRotation(targetPosition - myPosition, Vector3.up);
+        targetUnit.transform.rotation = Quaternion.LookRotation(myPosition - targetPosition, Vector3.up);
+
+        this.AnimateMoveTo(myPosition * 0.8f + targetPosition * 0.2f);
+        targetUnit.AnimateMoveTo(myPosition * 0.2f + targetPosition * 0.8f);
         // TODO
-        Destroy(targetUnit.gameObject);
+        // Destroy(targetUnit.gameObject);
     }
 
     public void SetFaction(Faction faction)
