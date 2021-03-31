@@ -11,10 +11,14 @@ public class Unit : MonoBehaviour
     public int remainingMoves = 1;
 
     private GameObject bodyGameObject;
+
+    private Unit attackTargetUnit;
     private GameObject attackTargetIndicatorGameObject;
 
     public Material standByMaterial;
     public Material outOfMoveMaterial;
+
+    public Animator animator;
 
     private bool isMoving = false;
     private Vector3 movingToPosition;
@@ -27,6 +31,8 @@ public class Unit : MonoBehaviour
     {
         this.bodyGameObject = this.transform.Find("CatBody").gameObject;
         this.attackTargetIndicatorGameObject = this.transform.Find("AttackTargetIndicator").gameObject;
+
+        this.animator = this.GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -75,15 +81,15 @@ public class Unit : MonoBehaviour
     }
     public void AttackTarget(Unit targetUnit)
     {
+        this.attackTargetUnit = targetUnit;
+
         Vector3 myPosition = this.transform.position;
         Vector3 targetPosition = targetUnit.transform.position;
         this.transform.rotation = Quaternion.LookRotation(targetPosition - myPosition, Vector3.up);
         targetUnit.transform.rotation = Quaternion.LookRotation(myPosition - targetPosition, Vector3.up);
 
-        this.AnimateMoveTo(myPosition * 0.8f + targetPosition * 0.2f);
-        targetUnit.AnimateMoveTo(myPosition * 0.2f + targetPosition * 0.8f);
-        // TODO
-        // Destroy(targetUnit.gameObject);
+        this.animator.SetBool("isAttacking", true);
+        targetUnit.animator.SetBool("isAttacking", true);
     }
 
     public void SetFaction(Faction faction)
@@ -120,5 +126,29 @@ public class Unit : MonoBehaviour
     public void SetAttackTargetIndicatorActive(bool active)
     {
         this.attackTargetIndicatorGameObject.SetActive(active);
+    }
+
+    // ---------- animation handlers
+    public void MeleeAttackHit()
+    {
+        // Only the attacker has attackTargetUnit, defender should not handle the logic inside the conditional
+        if (this.attackTargetUnit) {
+            // TODO: health check
+            this.attackTargetUnit.gameObject.SetActive(false);
+        }
+    }
+
+    public void MeleeAttackAnimationEnd()
+    {
+        // Only the attacker has attackTargetUnit, defender should not handle the logic inside the conditional
+        if (this.attackTargetUnit) {
+            // TODO: health check
+            this.MoveToHex(this.attackTargetUnit.currentHex);
+
+            Destroy(this.attackTargetUnit.gameObject);
+            this.attackTargetUnit = null;
+        }
+
+        this.animator.SetBool("isAttacking", false);
     }
 }
