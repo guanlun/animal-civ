@@ -165,14 +165,29 @@ public class Unit : MonoBehaviour
         this.possibleActions.Clear();
         if (this.remainingMoves > 0) {
             foreach (Hex reachableHex in HexManager.GetHexesByMovementDistance(this.currentHex, 2)) {
-                this.possibleActions.Add(new MoveAction(reachableHex));
+                this.possibleActions.Add(new MoveAction(this, reachableHex));
 
                 Unit unitOnHex = reachableHex.unitOnHex;
                 if (unitOnHex && unitOnHex.unitFaction != this.unitFaction) { // enemy unit
-                    this.possibleActions.Add(new AttackAction(unitOnHex));
+                    this.possibleActions.Add(new AttackAction(this, unitOnHex));
                 }
             }
         }
+    }
+
+    public void TakeBestAction()
+    {
+        float maxScore = 0f;
+        Action argMaxAction = null;
+        foreach (Action action in this.possibleActions) {
+            float actionScore = action.GetResultScore();
+            if (actionScore > maxScore) {
+                maxScore = actionScore;
+                argMaxAction = action;
+            }
+        }
+
+        argMaxAction.Execute();
     }
 
     public void ToggleActionStatesDisplay(bool toggleOn)

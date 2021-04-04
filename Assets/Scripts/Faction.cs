@@ -29,7 +29,8 @@ public class Faction
     {
         foreach (Unit unit in this.units)
         {
-
+            unit.ComputePossibleActions();
+            unit.TakeBestAction();
         }
     }
 }

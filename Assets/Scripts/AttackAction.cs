@@ -2,8 +2,9 @@ public class AttackAction : Action
 {
     public Unit targetUnit;
 
-    public AttackAction(Unit targetUnit)
+    public AttackAction(Unit unit, Unit targetUnit)
     {
+        this.unit = unit;
         this.targetUnit = targetUnit;
     }
 
@@ -14,11 +15,11 @@ public class AttackAction : Action
 
     public override void Execute()
     {
-        throw new System.NotImplementedException();
+        this.unit.AttackTarget(this.targetUnit);
     }
 
     public override float GetResultScore()
     {
-        throw new System.NotImplementedException();
+        return 1f;
     }
 }

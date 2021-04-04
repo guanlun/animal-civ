@@ -2,8 +2,9 @@ public class MoveAction : Action
 {
     public Hex destHex;
 
-    public MoveAction(Hex destHex)
+    public MoveAction(Unit unit, Hex destHex)
     {
+        this.unit = unit;
         this.destHex = destHex;
     }
 
@@ -14,11 +15,11 @@ public class MoveAction : Action
 
     public override void Execute()
     {
-        throw new System.NotImplementedException();
+        this.unit.MoveToHex(this.destHex);
     }
 
     public override float GetResultScore()
     {
-        throw new System.NotImplementedException();
+        return 0.5f;
     }
 }

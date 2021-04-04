@@ -1,5 +1,6 @@
 public abstract class Action
 {
+    public Unit unit;
 
     public abstract void ToggleTargetState(bool toggleOn);
 
