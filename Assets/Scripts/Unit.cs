@@ -24,6 +24,8 @@ public class Unit : MonoBehaviour
     private Vector3 movingToPosition;
     private Vector3 movingFromPosition;
 
+    private List<Action> possibleActions = new List<Action>();
+
     private float moveDuration = 0.15f;
     private float moveStartTime;
 
@@ -56,10 +58,16 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public bool isPlayerUnit()
+    {
+        return this.unitFaction.isPlayerFaction;
+    }
+
     public void MoveToHex(Hex hex)
     {
         this.transform.rotation = Quaternion.LookRotation(hex.GetCenterPos() - this.gameObject.transform.position, Vector3.up);
         this.currentHex.unitOnHex = null;
+        this.currentHex.SetSelected(false);
         this.SetCurrentHex(hex, true);
 
         // Start the move animation
@@ -150,5 +158,27 @@ public class Unit : MonoBehaviour
         }
 
         this.animator.SetBool("isAttacking", false);
+    }
+
+    public void ComputePossibleActions()
+    {
+        this.possibleActions.Clear();
+        if (this.remainingMoves > 0) {
+            foreach (Hex reachableHex in HexManager.GetHexesByMovementDistance(this.currentHex, 2)) {
+                this.possibleActions.Add(new MoveAction(reachableHex));
+
+                Unit unitOnHex = reachableHex.unitOnHex;
+                if (unitOnHex && unitOnHex.unitFaction != this.unitFaction) { // enemy unit
+                    this.possibleActions.Add(new AttackAction(unitOnHex));
+                }
+            }
+        }
+    }
+
+    public void ToggleActionStatesDisplay(bool toggleOn)
+    {
+        foreach (Action action in this.possibleActions) {
+            action.ToggleTargetState(toggleOn);
+        }
     }
 }

@@ -16,10 +16,6 @@ public class MainGameManager : MonoBehaviour
     public int numRows;
     public int numCols;
 
-    private List<Unit> units = new List<Unit>();
-
-    private List<Unit> attackableUnits = new List<Unit>();
-
     private Faction playerFaction;
     private List<Faction> aiFactions = new List<Faction>();
 
@@ -92,17 +88,10 @@ public class MainGameManager : MonoBehaviour
                             this.selectedUnit = clickedHex.unitOnHex;
                             this.isUnitSelected = true;
 
-                            if (clickedHex.unitOnHex.unitFaction.isPlayerFaction) {
-                                if (clickedHex.unitOnHex.remainingMoves > 0) {
-                                    foreach (Hex reachableHex in HexManager.GetHexesByMovementDistance(clickedHex, 2)) {
-                                        reachableHex.SetAdjacent(true);
-
-                                        Unit unitOnHex = reachableHex.unitOnHex;
-                                        if (unitOnHex && unitOnHex.unitFaction != this.selectedUnit.unitFaction) { // enemy unit
-                                            unitOnHex.SetAttackTargetIndicatorActive(true);
-                                            this.attackableUnits.Add(unitOnHex);
-                                        }
-                                    }
+                            if (selectedUnit.unitFaction.isPlayerFaction) {
+                                selectedUnit.ComputePossibleActions();
+                                if (selectedUnit.isPlayerUnit()) {
+                                    selectedUnit.ToggleActionStatesDisplay(true);
                                 }
                             }
                         }
@@ -118,19 +107,24 @@ public class MainGameManager : MonoBehaviour
 
     private void ClearActiveStates()
     {
-        foreach (List<GameObject> hexRow in HexManager.hexGrid) {
-            foreach(GameObject hexObject in hexRow) {
-                Hex hex = hexObject.GetComponent<Hex>();
-                hex.SetSelected(false);
-                hex.SetAdjacent(false);
-            }
+        // foreach (List<GameObject> hexRow in HexManager.hexGrid) {
+        //     foreach(GameObject hexObject in hexRow) {
+        //         Hex hex = hexObject.GetComponent<Hex>();
+        //         hex.SetSelected(false);
+        //         hex.SetAdjacent(false);
+        //     }
+        // }
+
+        // foreach (Unit attackableUnit in this.attackableUnits) {
+        //     attackableUnit.SetAttackTargetIndicatorActive(false);
+        // }
+
+        if (this.selectedUnit && this.selectedUnit.isPlayerUnit()) {
+            this.selectedUnit.currentHex.SetSelected(false);
+            this.selectedUnit.ToggleActionStatesDisplay(false);
         }
 
-        foreach (Unit attackableUnit in this.attackableUnits) {
-            attackableUnit.SetAttackTargetIndicatorActive(false);
-        }
-
-        attackableUnits.Clear();
+        // attackableUnits.Clear();
     }
 
     public void EndTurn()
