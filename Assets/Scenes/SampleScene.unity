@@ -152,7 +152,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UICanvas: {fileID: 1433428534}
   hexGridParent: {fileID: 875974133}
-  hexGridPrefab: {fileID: 1006358528774260981, guid: f34203942614e49359f6f26cd74183ff,
+  hexContainerPrefab: {fileID: 4424440454520611586, guid: f059cb3d593714017bbcb50ba3ff6a40,
+    type: 3}
+  landHexGridPrefab: {fileID: 1006358528774260981, guid: f34203942614e49359f6f26cd74183ff,
+    type: 3}
+  waterHexGridPrefab: {fileID: 8559172054173841334, guid: 6a40cd26f5d1d482f94659548eb5dfd0,
     type: 3}
   unitPrefab: {fileID: 3022386883644420232, guid: 2c1fe82aa40514ba8b929924a5d9b2d2,
     type: 3}

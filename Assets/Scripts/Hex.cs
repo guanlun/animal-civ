@@ -30,8 +30,13 @@ public class Hex : MonoBehaviour {
     public Material selectedStateMaterial;
     public Material adjacentStateMaterial;
 
+    public GameObject landHexPrefab;
+    public GameObject waterHexPrefab;
     public GameObject forestTerrainPrefab;
     public GameObject hillTerrainPrefab;
+
+    // game objcet for the base terrain (water or land)
+    public GameObject hexBaseGameObject;
 
     // game object on top of the hex (e.g. terrain object, building, etc.)
     public GameObject propGameObject;
@@ -42,12 +47,19 @@ public class Hex : MonoBehaviour {
 
     void Awake()
     {
-        this.gameObject.GetComponent<Renderer>().material = defaultStateMaterial;
         this.fogOverlay = this.transform.Find("fog").gameObject;
     }
 
     public void SetTerrainType(TerrainType terrainType) {
         this.terrainType = terrainType;
+
+        this.hexBaseGameObject = Instantiate(
+            this.terrainType == TerrainType.Water ? this.waterHexPrefab : this.landHexPrefab,
+            this.transform.position,
+            Quaternion.identity
+        );
+        this.hexBaseGameObject.transform.parent = this.transform;
+        this.hexBaseGameObject.GetComponent<Renderer>().material = defaultStateMaterial;
 
         GameObject terrainPrefab = null;
         switch (this.terrainType) {
@@ -60,20 +72,20 @@ public class Hex : MonoBehaviour {
         }
 
         if (terrainPrefab != null) {
-            this.propGameObject = Instantiate(terrainPrefab, this.transform.position, Quaternion.identity);
+            this.propGameObject = Instantiate(terrainPrefab, this.transform.position, Quaternion.AngleAxis(Random.Range(0, 5) * 60, Vector3.up));
             this.propGameObject.transform.parent = this.transform;
         }
     }
 
     public void SetSelected(bool selected)
     {
-        this.gameObject.GetComponent<Renderer>().material = selected ? selectedStateMaterial : defaultStateMaterial;
+        this.hexBaseGameObject.GetComponent<Renderer>().material = selected ? selectedStateMaterial : defaultStateMaterial;
     }
 
     public void SetAdjacent(bool isAdjacent)
     {
         this.isMovable = isAdjacent;
-        this.gameObject.GetComponent<Renderer>().material = isAdjacent ? adjacentStateMaterial : defaultStateMaterial;
+        this.hexBaseGameObject.GetComponent<Renderer>().material = isAdjacent ? adjacentStateMaterial : defaultStateMaterial;
     }
 
     public Vector3 GetCenterPos()

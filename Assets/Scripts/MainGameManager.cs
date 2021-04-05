@@ -9,7 +9,9 @@ public class MainGameManager : MonoBehaviour
 
     public GameObject hexGridParent;
 
-    public GameObject hexGridPrefab;
+    public GameObject hexContainerPrefab;
+    public GameObject landHexGridPrefab;
+    public GameObject waterHexGridPrefab;
     public GameObject unitPrefab;
 
     public GameObject lumberMillPrefab;
@@ -24,7 +26,7 @@ public class MainGameManager : MonoBehaviour
 
     void Awake()
     {
-        HexManager.InitHexGrid(this.numRows, this.numCols, this.hexGridParent, this.hexGridPrefab);
+        HexManager.InitHexGrid(this.numRows, this.numCols, this.hexGridParent, this.hexContainerPrefab);
 
         this.uiManager = UICanvas.GetComponent<UIManager>();
     }

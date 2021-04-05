@@ -7,7 +7,7 @@ public class HexManager
     public static int numRows;
     public static int numCols;
 
-    public static void InitHexGrid(int rowCount, int colCount, GameObject hexGridParent, GameObject hexGridPrefab)
+    public static void InitHexGrid(int rowCount, int colCount, GameObject hexGridParent, GameObject hexContainerPrefab)
     {
         numRows = rowCount;
         numCols = colCount;
@@ -15,14 +15,18 @@ public class HexManager
         for (int rowIdx = 0; rowIdx < numRows; rowIdx++) {
             List<GameObject> hexRow = new List<GameObject>();
             for (int colIdx = 0; colIdx < (rowIdx % 2 == 0 ? numCols : numCols - 1); colIdx++) {
-                GameObject hexGameObject = GameObject.Instantiate(hexGridPrefab, new Vector3(colIdx * Hex.COLUMN_SPACING + rowIdx % 2 * Hex.COLUMN_SPACING / 2, 0, rowIdx * Hex.ROW_SPACING), Quaternion.identity);
+                GameObject hexGameObject = GameObject.Instantiate(
+                    hexContainerPrefab,
+                    new Vector3(colIdx * Hex.COLUMN_SPACING + rowIdx % 2 * Hex.COLUMN_SPACING / 2, 0, rowIdx * Hex.ROW_SPACING),
+                    Quaternion.identity
+                );
                 hexGameObject.transform.parent = hexGridParent.transform;
                 Hex hex = hexGameObject.GetComponent<Hex>();
                 hex.rowIdx = rowIdx;
                 hex.colIdx = colIdx;
 
-                int randomNumber = Random.Range(0, 10);
                 TerrainType terrainType;
+                int randomNumber = Random.Range(0, 10);
                 if (randomNumber < 2) {
                     terrainType = TerrainType.Grassland;
                 } else if (randomNumber < 4) {
@@ -34,6 +38,7 @@ public class HexManager
                 } else {
                     terrainType = TerrainType.Water;
                 }
+
                 hex.SetTerrainType(terrainType);
 
                 hexRow.Add(hexGameObject);
