@@ -31,6 +31,7 @@ public class Hex : MonoBehaviour {
     public Material adjacentStateMaterial;
 
     public GameObject forestTerrainPrefab;
+    public GameObject hillTerrainPrefab;
 
     // game object on top of the hex (e.g. terrain object, building, etc.)
     public GameObject propGameObject;
@@ -48,9 +49,19 @@ public class Hex : MonoBehaviour {
     public void SetTerrainType(TerrainType terrainType) {
         this.terrainType = terrainType;
 
-        if (this.terrainType == TerrainType.Forest) {
-            this.propGameObject = Instantiate(forestTerrainPrefab, this.transform.position, Quaternion.identity);
-            this.propGameObject.SetActive(false);
+        GameObject terrainPrefab = null;
+        switch (this.terrainType) {
+            case TerrainType.Forest:
+                terrainPrefab = forestTerrainPrefab;
+                break;
+            case TerrainType.Hill:
+                terrainPrefab = hillTerrainPrefab;
+                break;
+        }
+
+        if (terrainPrefab != null) {
+            this.propGameObject = Instantiate(terrainPrefab, this.transform.position, Quaternion.identity);
+            this.propGameObject.transform.parent = this.transform;
         }
     }
 

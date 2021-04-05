@@ -21,9 +21,20 @@ public class HexManager
                 hex.rowIdx = rowIdx;
                 hex.colIdx = colIdx;
 
-                if (Random.Range(0, 10) < 2) {
-                    hex.SetTerrainType(TerrainType.Forest);
+                int randomNumber = Random.Range(0, 10);
+                TerrainType terrainType;
+                if (randomNumber < 2) {
+                    terrainType = TerrainType.Grassland;
+                } else if (randomNumber < 4) {
+                    terrainType = TerrainType.Forest;
+                } else if (randomNumber < 6) {
+                    terrainType = TerrainType.Hill;
+                } else if (randomNumber < 4) {
+                    terrainType = TerrainType.Desert;
+                } else {
+                    terrainType = TerrainType.Water;
                 }
+                hex.SetTerrainType(terrainType);
 
                 hexRow.Add(hexGameObject);
             }

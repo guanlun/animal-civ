@@ -94,9 +94,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitOnHex: {fileID: 0}
+  buildingOnHex: {fileID: 0}
   rowIdx: 0
   colIdx: 0
-  isAdjacent: 0
+  isMovable: 0
   defaultStateMaterial: {fileID: 2100000, guid: f5c3dcbc4a392418d91b1bbf35eecba3,
     type: 2}
   selectedStateMaterial: {fileID: 2100000, guid: ceef33abef3c7438ca7f11d3bdd7d1f7,
@@ -105,6 +106,10 @@ MonoBehaviour:
     type: 2}
   forestTerrainPrefab: {fileID: 4974554623220758470, guid: e53d58459472c464a8f4264d06533bdb,
     type: 3}
+  hillTerrainPrefab: {fileID: 1322446970879658535, guid: 12c47dd83512740a4b4dd6584d27da4e,
+    type: 3}
+  propGameObject: {fileID: 0}
+  fogOverlay: {fileID: 0}
 --- !u!1001 &8975935569748212311
 PrefabInstance:
   m_ObjectHideFlags: 0
