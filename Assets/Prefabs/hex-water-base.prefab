@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 9044240762615311628}
   - component: {fileID: 5344720092758549161}
   - component: {fileID: 7910772662024328803}
-  - component: {fileID: 6226469248225283935}
   m_Layer: 0
-  m_Name: hex-water
+  m_Name: hex-water-base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,27 +79,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &6226469248225283935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8559172054173841334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 023e7cfc655f34dee9f445e5e1165b21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitOnHex: {fileID: 0}
-  buildingOnHex: {fileID: 0}
-  rowIdx: 0
-  colIdx: 0
-  isMovable: 0
-  defaultStateMaterial: {fileID: 0}
-  selectedStateMaterial: {fileID: 0}
-  adjacentStateMaterial: {fileID: 0}
-  forestTerrainPrefab: {fileID: 0}
-  hillTerrainPrefab: {fileID: 0}
-  propGameObject: {fileID: 0}
-  fogOverlay: {fileID: 0}

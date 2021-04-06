@@ -65,8 +65,12 @@ public class HexManager
         }
 
         foreach (Hex adjacentHex in GetAdjacentHexes(hex)) {
-            existingHexes.Add(adjacentHex);
-            GetHexesByMovementDistanceRecur(adjacentHex, distance - adjacentHex.GetMovementCost(), existingHexes);
+            int nextDistance = distance - adjacentHex.GetMovementCost();
+
+            if (nextDistance >= 0) {
+                existingHexes.Add(adjacentHex);
+                GetHexesByMovementDistanceRecur(adjacentHex, nextDistance, existingHexes);
+            }
         }
     }
 

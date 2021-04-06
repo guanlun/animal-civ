@@ -20,6 +20,6 @@ public class AttackAction : Action
 
     public override float GetResultScore()
     {
-        return 1f;
+        return 0.2f;
     }
 }

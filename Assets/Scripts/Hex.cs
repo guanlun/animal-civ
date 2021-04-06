@@ -26,9 +26,9 @@ public class Hex : MonoBehaviour {
 
     public bool isMovable = false;
 
-    public Material defaultStateMaterial;
-    public Material selectedStateMaterial;
-    public Material adjacentStateMaterial;
+    public Material grasslandMaterial;
+
+    public GameObject movableIndicatorGameObject;
 
     public GameObject landHexPrefab;
     public GameObject waterHexPrefab;
@@ -48,6 +48,7 @@ public class Hex : MonoBehaviour {
     void Awake()
     {
         this.fogOverlay = this.transform.Find("fog").gameObject;
+        this.movableIndicatorGameObject.GetComponent<SpriteRenderer>().material.renderQueue = 4000;
     }
 
     public void SetTerrainType(TerrainType terrainType) {
@@ -59,7 +60,10 @@ public class Hex : MonoBehaviour {
             Quaternion.identity
         );
         this.hexBaseGameObject.transform.parent = this.transform;
-        this.hexBaseGameObject.GetComponent<Renderer>().material = defaultStateMaterial;
+
+        if (terrainType != TerrainType.Water) {
+            this.hexBaseGameObject.GetComponent<Renderer>().material = grasslandMaterial;
+        }
 
         GameObject terrainPrefab = null;
         switch (this.terrainType) {
@@ -79,13 +83,13 @@ public class Hex : MonoBehaviour {
 
     public void SetSelected(bool selected)
     {
-        this.hexBaseGameObject.GetComponent<Renderer>().material = selected ? selectedStateMaterial : defaultStateMaterial;
+        this.movableIndicatorGameObject.SetActive(selected);
     }
 
     public void SetAdjacent(bool isAdjacent)
     {
         this.isMovable = isAdjacent;
-        this.hexBaseGameObject.GetComponent<Renderer>().material = isAdjacent ? adjacentStateMaterial : defaultStateMaterial;
+        this.movableIndicatorGameObject.SetActive(isAdjacent);
     }
 
     public Vector3 GetCenterPos()
@@ -133,6 +137,8 @@ public class Hex : MonoBehaviour {
             case TerrainType.Forest:
             case TerrainType.Hill:
                 return 2;
+            case TerrainType.Water:
+                return 100;
             default:
                 return 1;
         }

@@ -258,6 +258,7 @@ MonoBehaviour:
   remainingMoves: 1
   standByMaterial: {fileID: 2100000, guid: c88258b45976c4be8a07b52b653d2bc4, type: 2}
   outOfMoveMaterial: {fileID: 2100000, guid: 21d4b38013f154a7a9bbc22431256276, type: 2}
+  animator: {fileID: 0}
 --- !u!95 &6428121874430606961
 Animator:
   serializedVersion: 3
