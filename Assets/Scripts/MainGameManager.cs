@@ -109,24 +109,10 @@ public class MainGameManager : MonoBehaviour
 
     private void ClearActiveStates()
     {
-        // foreach (List<GameObject> hexRow in HexManager.hexGrid) {
-        //     foreach(GameObject hexObject in hexRow) {
-        //         Hex hex = hexObject.GetComponent<Hex>();
-        //         hex.SetSelected(false);
-        //         hex.SetAdjacent(false);
-        //     }
-        // }
-
-        // foreach (Unit attackableUnit in this.attackableUnits) {
-        //     attackableUnit.SetAttackTargetIndicatorActive(false);
-        // }
-
         if (this.selectedUnit && this.selectedUnit.isPlayerUnit()) {
             this.selectedUnit.currentHex.SetSelected(false);
             this.selectedUnit.ToggleActionStatesDisplay(false);
         }
-
-        // attackableUnits.Clear();
     }
 
     public void EndTurn()
