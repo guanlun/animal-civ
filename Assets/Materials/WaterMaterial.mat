@@ -68,6 +68,7 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _RowOffSet: 0
+    - _RowOffset: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -78,3 +79,4 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _TintColor: {r: 0.5453453, g: 0.73496294, b: 0.8962264, a: 1}
+    - _Weird: {r: 1, g: 1, b: 1, a: 1}

@@ -61,12 +61,11 @@ public class Hex : MonoBehaviour {
         );
         this.hexBaseGameObject.transform.parent = this.transform;
 
+        Renderer hexBaseRenderer = this.hexBaseGameObject.GetComponent<Renderer>();
         if (terrainType == TerrainType.Water) {
-            Material mat = this.hexBaseGameObject.GetComponent<Renderer>().material;
-            mat.SetColor("_Weird", new Color(this.rowIdx % 2, 0, 0, 1));
-            mat.SetInt("_RowOffset", this.rowIdx % 2);
+            hexBaseRenderer.material.SetInt("_RowOffset", this.rowIdx % 2);
         } else {
-            this.hexBaseGameObject.GetComponent<Renderer>().material = grasslandMaterial;
+            hexBaseRenderer.material = grasslandMaterial;
         }
 
         GameObject terrainPrefab = null;
