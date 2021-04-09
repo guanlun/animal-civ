@@ -61,11 +61,10 @@ public class Hex : MonoBehaviour {
         );
         this.hexBaseGameObject.transform.parent = this.transform;
 
-        Renderer hexBaseRenderer = this.hexBaseGameObject.GetComponent<Renderer>();
         if (terrainType == TerrainType.Water) {
-            hexBaseRenderer.material.SetInt("_RowOffset", this.rowIdx % 2);
+            this.hexBaseGameObject.transform.Find("hex-triangles").GetComponent<Renderer>().material.SetInt("_RowOffset", this.rowIdx % 2);
         } else {
-            hexBaseRenderer.material = grasslandMaterial;
+            this.hexBaseGameObject.GetComponent<Renderer>().material = grasslandMaterial;
         }
 
         GameObject terrainPrefab = null;

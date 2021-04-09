@@ -135,7 +135,7 @@ MonoBehaviour:
   movableIndicatorGameObject: {fileID: 964719155637076122}
   landHexPrefab: {fileID: 9151213817533125546, guid: f34203942614e49359f6f26cd74183ff,
     type: 3}
-  waterHexPrefab: {fileID: 6295624395156388801, guid: 5d5de78a5058f4342a630f458251f987,
+  waterHexPrefab: {fileID: 1032059425042404681, guid: da1a515964cab4356b07090ee724fe42,
     type: 3}
   forestTerrainPrefab: {fileID: 4974554623220758470, guid: e53d58459472c464a8f4264d06533bdb,
     type: 3}

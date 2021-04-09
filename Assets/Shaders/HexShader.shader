@@ -40,7 +40,7 @@
             {
                 v2f o;
                 if (v.vertex.y >= -0.1) {
-                    v.vertex.y += 0.05 * sin((0.5 * _Time.y + (v.vertex.x / 0.866 + _RowOffset)) * 3.14);
+                    v.vertex.y += 0.02 * sin((0.5 * _Time.y + (v.vertex.x / 0.866 + _RowOffset)) * 3.14);
                 }
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
@@ -55,7 +55,7 @@
             {
                 // sample the texture
                 fixed4 col = _TintColor / 2 * i.diff;;
-                col.a = 0.5;
+                col.a = 0.8;
                 return col;
             }
             ENDCG
