@@ -37,9 +37,9 @@ public class HexManager
                 } else if (heightMapValue < 0.5) {
                     terrainType = TerrainType.Grassland;
                 } else if (heightMapValue < 0.75) {
-                    terrainType = TerrainType.Forest;
-                } else {
                     terrainType = TerrainType.Hill;
+                } else {
+                    terrainType = TerrainType.Mountain;
                 }
 
                 hex.SetTerrainType(terrainType);

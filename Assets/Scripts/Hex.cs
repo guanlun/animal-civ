@@ -9,6 +9,8 @@ public enum TerrainType {
     Desert,
     Water,
     Snow,
+
+    Mountain,
 }
 
 public class Hex : MonoBehaviour {
@@ -34,6 +36,8 @@ public class Hex : MonoBehaviour {
     public GameObject waterHexPrefab;
     public GameObject forestTerrainPrefab;
     public GameObject hillTerrainPrefab;
+
+    public GameObject mountainTerrainPrefab;
 
     // game objcet for the base terrain (water or land)
     public GameObject hexBaseGameObject;
@@ -74,6 +78,9 @@ public class Hex : MonoBehaviour {
                 break;
             case TerrainType.Hill:
                 terrainPrefab = hillTerrainPrefab;
+                break;
+            case TerrainType.Mountain:
+                terrainPrefab = mountainTerrainPrefab;
                 break;
         }
 
