@@ -7,8 +7,10 @@ public class HexManager
     public static int numRows;
     public static int numCols;
 
-    public static void InitHexGrid(int rowCount, int colCount, GameObject hexGridParent, GameObject hexContainerPrefab)
+    public static void InitHexGrid(int rowCount, int colCount, float[,] heightMap, GameObject hexGridParent, GameObject hexContainerPrefab)
     {
+        int heightMapSize = heightMap.GetLength(0);
+
         numRows = rowCount;
         numCols = colCount;
 
@@ -26,17 +28,18 @@ public class HexManager
                 hex.colIdx = colIdx;
 
                 TerrainType terrainType;
-                int randomNumber = Random.Range(0, 10);
-                if (randomNumber < 2) {
-                    terrainType = TerrainType.Grassland;
-                } else if (randomNumber < 4) {
-                    terrainType = TerrainType.Forest;
-                } else if (randomNumber < 6) {
-                    terrainType = TerrainType.Hill;
-                } else if (randomNumber < 4) {
-                    terrainType = TerrainType.Desert;
-                } else {
+                int heightMapRowIdx = Mathf.RoundToInt(((float)rowIdx / (numRows - 1)) * (heightMapSize - 1));
+                int heightMapColIdx = Mathf.RoundToInt(((float)colIdx / (numCols - 1)) * (heightMapSize - 1));
+                float heightMapValue = heightMap[heightMapRowIdx, heightMapColIdx];
+
+                if (heightMapValue < 0.25) {
                     terrainType = TerrainType.Water;
+                } else if (heightMapValue < 0.5) {
+                    terrainType = TerrainType.Grassland;
+                } else if (heightMapValue < 0.75) {
+                    terrainType = TerrainType.Forest;
+                } else {
+                    terrainType = TerrainType.Hill;
                 }
 
                 hex.SetTerrainType(terrainType);

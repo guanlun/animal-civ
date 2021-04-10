@@ -54,7 +54,7 @@
             fixed4 frag (v2f i) : SV_Target
             {
                 // sample the texture
-                fixed4 col = _TintColor / 2 * i.diff;;
+                fixed4 col = _TintColor * i.diff;;
                 col.a = 0.8;
                 return col;
             }

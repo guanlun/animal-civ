@@ -26,7 +26,8 @@ public class MainGameManager : MonoBehaviour
 
     void Awake()
     {
-        HexManager.InitHexGrid(this.numRows, this.numCols, this.hexGridParent, this.hexContainerPrefab);
+        float[,] heightMap = TerrainGenerator.GenerateHeightMap(33);
+        HexManager.InitHexGrid(this.numRows, this.numCols, heightMap, this.hexGridParent, this.hexContainerPrefab);
 
         this.uiManager = UICanvas.GetComponent<UIManager>();
     }
