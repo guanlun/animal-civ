@@ -77,6 +77,28 @@ public class HexManager
         }
     }
 
+    public static HashSet<Hex> GetHexesByVisibleDistance(Hex hex)
+    {
+        HashSet<Hex> results = new HashSet<Hex>();
+        GetHexesByVisibleDistanceRecur(hex, hex.GetTerrainType() == TerrainType.Hill ? 3 : 2, results);
+
+        return results;
+    }
+
+    private static void GetHexesByVisibleDistanceRecur(Hex hex, int distance, HashSet<Hex> existingHexes)
+    {
+        if (distance <= 0) {
+            return;
+        }
+
+        foreach (Hex adjacentHex in GetAdjacentHexes(hex)) {
+            int nextDistance = distance - adjacentHex.GetViewingCost();
+
+            existingHexes.Add(adjacentHex);
+            GetHexesByVisibleDistanceRecur(adjacentHex, nextDistance, existingHexes);
+        }
+    }
+
     public static HashSet<Hex> GetAdjacentHexes(Hex hex)
     {
         int rowIdx = hex.rowIdx, colIdx = hex.colIdx;

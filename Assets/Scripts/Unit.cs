@@ -120,7 +120,7 @@ public class Unit : MonoBehaviour
 
         hex.SetExplored(this.unitFaction);
 
-        foreach (Hex adjacentHex in HexManager.GetAdjacentHexes(hex)) {
+        foreach (Hex adjacentHex in HexManager.GetHexesByVisibleDistance(hex)) {
             adjacentHex.SetExplored(this.unitFaction);
         }
     }

@@ -83,6 +83,10 @@ public class Hex : MonoBehaviour {
         }
     }
 
+    public TerrainType GetTerrainType() {
+        return this.terrainType;
+    }
+
     public void SetSelected(bool selected)
     {
         this.movableIndicatorGameObject.SetActive(selected);
@@ -131,6 +135,17 @@ public class Hex : MonoBehaviour {
         }
 
         return false;
+    }
+
+    public int GetViewingCost()
+    {
+        switch (this.terrainType) {
+            case TerrainType.Forest:
+            case TerrainType.Hill:
+                return 2;
+            default:
+                return 1;
+        }
     }
 
     public int GetMovementCost()
