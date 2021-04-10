@@ -32,11 +32,11 @@ public class HexManager
                 int heightMapColIdx = Mathf.RoundToInt(((float)colIdx / (numCols - 1)) * (heightMapSize - 1));
                 float heightMapValue = heightMap[heightMapRowIdx, heightMapColIdx];
 
-                if (heightMapValue < 0.25) {
+                if (heightMapValue < 0.3) {
                     terrainType = TerrainType.Water;
-                } else if (heightMapValue < 0.5) {
+                } else if (heightMapValue < 0.8) {
                     terrainType = TerrainType.Grassland;
-                } else if (heightMapValue < 0.75) {
+                } else if (heightMapValue < 0.95) {
                     terrainType = TerrainType.Hill;
                 } else {
                     terrainType = TerrainType.Mountain;
@@ -49,6 +49,18 @@ public class HexManager
 
             hexGrid.Add(hexRow);
         }
+    }
+
+    public static List<Hex> GetAllHexesInList()
+    {
+        List<Hex> hexList = new List<Hex>();
+        foreach (List<GameObject> hexRow in hexGrid) {
+            foreach(GameObject hexGameObject in hexRow) {
+                hexList.Add(hexGameObject.GetComponent<Hex>());
+            }
+        }
+
+        return hexList;
     }
 
     public static HashSet<Hex> GetHexesByMovementDistance(Hex hex, int distance)

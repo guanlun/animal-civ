@@ -19,7 +19,7 @@ public class MainGameManager : MonoBehaviour
     public int numCols;
 
     private Faction playerFaction;
-    private List<Faction> aiFactions = new List<Faction>();
+    private List<Faction> factions = new List<Faction>();
 
     private Unit selectedUnit = null;
     private bool isUnitSelected = false;
@@ -36,24 +36,15 @@ public class MainGameManager : MonoBehaviour
     void Start()
     {
         this.playerFaction = new Faction(true);
-
-        GameObject unitGameObject1 = Instantiate(unitPrefab);
-        Unit unit1 = unitGameObject1.GetComponent<Unit>();
-        this.playerFaction.AddUnit(unit1);
-        unit1.SetCurrentHex(HexManager.hexGrid[1][1].GetComponent<Hex>());
-
-        GameObject unitGameObject2 = Instantiate(unitPrefab);
-        Unit unit2 = unitGameObject2.GetComponent<Unit>();
-        this.playerFaction.AddUnit(unit2);
-        unit2.SetCurrentHex(HexManager.hexGrid[2][1].GetComponent<Hex>());
+        this.factions.Add(this.playerFaction);
 
         Faction aiFaction1 = new Faction();
-        GameObject aiGameObject1 = Instantiate(unitPrefab);
-        Unit aiUnit1 = aiGameObject1.GetComponent<Unit>();
-        aiFaction1.AddUnit(aiUnit1);
-        aiUnit1.SetCurrentHex(HexManager.hexGrid[2][2].GetComponent<Hex>());
+        this.factions.Add(aiFaction1);
 
-        this.aiFactions.Add(aiFaction1);
+        Faction aiFaction2 = new Faction();
+        this.factions.Add(aiFaction2);
+
+        this.SetFactionStartingLocations();
     }
 
     // Update is called once per frame
@@ -108,6 +99,27 @@ public class MainGameManager : MonoBehaviour
         }
     }
 
+    private void SetFactionStartingLocations()
+    {
+        int minDistanceApart = (int)((this.numRows + this.numCols) / this.factions.Count / 1.5f);
+        List<Hex> availableLandHexes = HexManager.GetAllHexesInList().FindAll(hex => hex.GetTerrainType() != TerrainType.Water);
+
+        foreach (Faction faction in this.factions) {
+            if (availableLandHexes.Count == 0) {
+                // TODO: re-generate map?
+                break;
+            }
+
+            Hex factionStartingHex = availableLandHexes[Random.Range(0, availableLandHexes.Count)];
+            availableLandHexes = availableLandHexes.FindAll(hex => (factionStartingHex.rowIdx - hex.rowIdx + factionStartingHex.colIdx - hex.colIdx) >= minDistanceApart);
+
+            GameObject unitGameObject = Instantiate(this.unitPrefab);
+            Unit startingUnit = unitGameObject.GetComponent<Unit>();
+            this.playerFaction.AddUnit(startingUnit);
+            startingUnit.SetCurrentHex(factionStartingHex);
+        }
+    }
+
     private void ClearActiveStates()
     {
         if (this.selectedUnit && this.selectedUnit.isPlayerUnit()) {
@@ -128,8 +140,10 @@ public class MainGameManager : MonoBehaviour
             this.uiManager.SetWoodValue(10);
         }
 
-        foreach (Faction aiFaction in this.aiFactions) {
-            aiFaction.StartTurn();
+        foreach (Faction faction in this.factions) {
+            if (faction != this.playerFaction) {
+                faction.StartTurn();
+            }
         }
     }
 

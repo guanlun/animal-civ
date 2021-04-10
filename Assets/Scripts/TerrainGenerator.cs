@@ -25,7 +25,7 @@ public class TerrainGenerator
                             heightMap[startRow + squareSize - 1, startCol] +
                             heightMap[startRow, startCol + squareSize - 1] +
                             heightMap[startRow + squareSize - 1, startCol + squareSize - 1]
-                        ) / 4 + Random.Range(-0.2f, 0.2f),
+                        ) / 4 + Random.Range(-0.5f, 0.5f),
                         0,
                         1
                     );
@@ -71,6 +71,6 @@ public class TerrainGenerator
             sampleCount++;
         }
 
-        heightMap[row,col] = Mathf.Clamp(sum / sampleCount + Random.Range(-0.2f, 0.2f), 0, 1);
+        heightMap[row,col] = Mathf.Clamp(sum / sampleCount + Random.Range(-0.5f, 0.5f), 0, 1);
     }
 }
