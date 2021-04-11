@@ -137,7 +137,7 @@ MonoBehaviour:
     type: 3}
   waterHexPrefab: {fileID: 1032059425042404681, guid: da1a515964cab4356b07090ee724fe42,
     type: 3}
-  forestTerrainPrefab: {fileID: 4974554623220758470, guid: e53d58459472c464a8f4264d06533bdb,
+  forestTerrainPrefab: {fileID: 843448794547490171, guid: 08b030b0bd51b4eb7931bf4dd407b0d1,
     type: 3}
   hillTerrainPrefab: {fileID: 1322446970879658535, guid: 12c47dd83512740a4b4dd6584d27da4e,
     type: 3}
@@ -241,7 +241,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 62ab8a07effb54eb488c78bfa9ed395a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62ab8a07effb54eb488c78bfa9ed395a, type: 3}

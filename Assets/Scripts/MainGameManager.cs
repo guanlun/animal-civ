@@ -115,7 +115,7 @@ public class MainGameManager : MonoBehaviour
 
             GameObject unitGameObject = Instantiate(this.unitPrefab);
             Unit startingUnit = unitGameObject.GetComponent<Unit>();
-            this.playerFaction.AddUnit(startingUnit);
+            faction.AddUnit(startingUnit);
             startingUnit.SetCurrentHex(factionStartingHex);
         }
     }

@@ -4,7 +4,7 @@
     {
         _MainTex ("Texture", 2D) = "white" {}
         _TintColor ("Tint Color", Color) = (1, 1, 1, 1)
-        _RowOffset ("Row Offset", Int) = 0
+        _RowIndex ("Row Index", Int) = 0
     }
     SubShader
     {
@@ -33,14 +33,15 @@
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float4 _TintColor;
-            int _RowOffset;
+            int _RowIndex;
             float4 _Weird;
 
             v2f vert (appdata_base v)
             {
                 v2f o;
+
                 if (v.vertex.y >= -0.1) {
-                    v.vertex.y += 0.02 * sin((0.5 * _Time.y + (v.vertex.x / 0.866 + _RowOffset)) * 3.14);
+                    v.vertex.y += 0.02 * sin((0.5 * _Time.y + (v.vertex.x / 0.866 + _RowIndex % 2)) * 3.14);
                 }
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
