@@ -117,6 +117,10 @@ public class MainGameManager : MonoBehaviour
             Unit startingUnit = unitGameObject.GetComponent<Unit>();
             faction.AddUnit(startingUnit);
             startingUnit.SetCurrentHex(factionStartingHex);
+
+            if (faction.isPlayerFaction) {
+                Camera.main.transform.position = unitGameObject.transform.position + new Vector3(0, 10, -10);
+            }
         }
     }
 

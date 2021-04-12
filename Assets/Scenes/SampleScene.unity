@@ -160,7 +160,7 @@ MonoBehaviour:
     type: 3}
   unitPrefab: {fileID: 3022386883644420232, guid: 2c1fe82aa40514ba8b929924a5d9b2d2,
     type: 3}
-  lumberMillPrefab: {fileID: 4236441082576827039, guid: a45dd92bb582c4f4dbcbc80abc685988,
+  lumberMillPrefab: {fileID: 5421838896137245598, guid: 18c2e81bff8994db09e619fa03ad4856,
     type: 3}
   numRows: 16
   numCols: 16
