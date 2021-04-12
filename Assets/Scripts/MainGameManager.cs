@@ -163,7 +163,7 @@ public class MainGameManager : MonoBehaviour
             // TODO: remove from player faction
         }
 
-        GameObject lumberMillGameObject = Instantiate(this.lumberMillPrefab, currentHex.transform.position, Quaternion.identity);
+        GameObject lumberMillGameObject = Instantiate(this.lumberMillPrefab, currentHex.transform.position, Quaternion.AngleAxis(180, Vector3.up));
         currentHex.buildingOnHex = lumberMillGameObject.GetComponent<LumberMill>();
 
         this.playerFaction.AddBuilding(currentHex.buildingOnHex);
