@@ -87,6 +87,9 @@ public class Hex : MonoBehaviour {
         if (terrainPrefab != null) {
             this.propGameObject = Instantiate(terrainPrefab, this.transform.position, Quaternion.AngleAxis(Random.Range(0, 5) * 60, Vector3.up));
             this.propGameObject.transform.parent = this.transform;
+
+            // Make props inactive so that they aren't visible in fog
+            this.propGameObject.SetActive(false);
         }
     }
 

@@ -139,7 +139,7 @@ MonoBehaviour:
     type: 3}
   forestTerrainPrefab: {fileID: 843448794547490171, guid: 08b030b0bd51b4eb7931bf4dd407b0d1,
     type: 3}
-  hillTerrainPrefab: {fileID: 1322446970879658535, guid: 12c47dd83512740a4b4dd6584d27da4e,
+  hillTerrainPrefab: {fileID: 8888916631613478198, guid: 12c47dd83512740a4b4dd6584d27da4e,
     type: 3}
   mountainTerrainPrefab: {fileID: 3220166095906755100, guid: b449807ceb9b74bc7a5ae66a803347c1,
     type: 3}

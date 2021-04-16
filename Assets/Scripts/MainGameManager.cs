@@ -15,6 +15,8 @@ public class MainGameManager : MonoBehaviour
     public GameObject unitPrefab;
 
     public GameObject lumberMillPrefab;
+    public GameObject farmPrefab;
+
     public int numRows;
     public int numCols;
 
