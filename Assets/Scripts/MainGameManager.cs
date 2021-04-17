@@ -153,7 +153,7 @@ public class MainGameManager : MonoBehaviour
         }
     }
 
-    public void Build()
+    public void Build(GameObject buildingPrefab)
     {
         Hex currentHex = this.selectedUnit.currentHex;
 
@@ -165,8 +165,8 @@ public class MainGameManager : MonoBehaviour
             // TODO: remove from player faction
         }
 
-        GameObject lumberMillGameObject = Instantiate(this.lumberMillPrefab, currentHex.transform.position, Quaternion.AngleAxis(180, Vector3.up));
-        currentHex.buildingOnHex = lumberMillGameObject.GetComponent<LumberMill>();
+        GameObject buildingGameObject = Instantiate(buildingPrefab, currentHex.transform.position, Quaternion.AngleAxis(180, Vector3.up));
+        currentHex.buildingOnHex = buildingGameObject.GetComponent<LumberMill>();
 
         this.playerFaction.AddBuilding(currentHex.buildingOnHex);
     }
