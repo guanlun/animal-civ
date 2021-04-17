@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MainGameManager : MonoBehaviour
 {
@@ -52,6 +53,11 @@ public class MainGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (EventSystem.current.IsPointerOverGameObject()) {
+            // Mouse on UI elements
+            return;
+        }
+
         if (Input.GetMouseButtonUp(0)) {
             RaycastHit hit;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit)) {
