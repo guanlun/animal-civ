@@ -166,8 +166,8 @@ public class MainGameManager : MonoBehaviour
         }
 
         GameObject buildingGameObject = Instantiate(buildingPrefab, currentHex.transform.position, Quaternion.AngleAxis(180, Vector3.up));
-        currentHex.buildingOnHex = buildingGameObject.GetComponent<LumberMill>();
 
+        currentHex.buildingOnHex = buildingGameObject.GetComponent<Buidling>();
         this.playerFaction.AddBuilding(currentHex.buildingOnHex);
     }
 }

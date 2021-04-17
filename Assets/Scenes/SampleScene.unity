@@ -195,7 +195,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &293989141
 RectTransform:
   m_ObjectHideFlags: 0
@@ -299,7 +299,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 254623543}
+      - m_Target: {fileID: 1433428539}
         m_MethodName: Build
         m_Mode: 2
         m_Arguments:
@@ -361,7 +361,7 @@ GameObject:
   - component: {fileID: 473454272}
   - component: {fileID: 473454271}
   m_Layer: 5
-  m_Name: Button
+  m_Name: BuildingMenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -429,7 +429,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 473454272}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1433428539}
+        m_MethodName: ToggleBuildMenuVisibility
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &473454272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1374,6 +1385,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   woodResourceDisplayText: {fileID: 1946192505}
+  gameManager: {fileID: 254623542}
+  mainGameManager: {fileID: 0}
+  buildingMenu: {fileID: 293989140}
 --- !u!1 &1866127127
 GameObject:
   m_ObjectHideFlags: 0
@@ -1614,7 +1628,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 254623543}
+      - m_Target: {fileID: 1433428539}
         m_MethodName: Build
         m_Mode: 2
         m_Arguments:
