@@ -67,23 +67,25 @@ public class MainGameManager : MonoBehaviour
 
                     if (clickedHex) {
                         if (this.isUnitSelected) {
-                            if (clickedHex) {
-                                Unit unitOnHex = clickedHex.unitOnHex;
-                                if (unitOnHex) {
-                                    if (unitOnHex.unitFaction == this.selectedUnit.unitFaction) { // enemy unit
-                                        // TODO: friendly unit action
-                                    } else {
-                                        this.selectedUnit.AttackTarget(unitOnHex);
-                                    }
-                                } else {
-                                    if (clickedHex.isMovable) {
-                                        this.selectedUnit.MoveToHex(clickedHex);
-                                    }
-                                }
+                            Unit unitOnHex = clickedHex.unitOnHex;
+                            if (unitOnHex) {
+                                if (unitOnHex == this.selectedUnit) {
+                                    // Clicking on the hex of the currently selected unit - Check if their are any building on the hex to select
 
-                                this.ClearActiveStates();
-                                this.isUnitSelected = false;
+                                } else if (unitOnHex.unitFaction == this.selectedUnit.unitFaction) {
+                                    // TODO: friendly unit action
+                                } else {
+                                    // Enemy unit
+                                    this.selectedUnit.AttackTarget(unitOnHex);
+                                }
+                            } else {
+                                if (clickedHex.isMovable) {
+                                    this.selectedUnit.MoveToHex(clickedHex);
+                                }
                             }
+
+                            this.ClearActiveStates();
+                            this.isUnitSelected = false;
                         } else if (clickedHex.unitOnHex) {
                             this.ClearActiveStates();
                             clickedHex.SetSelected(true); // TODO: move selected unit state to unit

@@ -5,6 +5,19 @@ using System.Collections.Generic;
 public class Buidling : MonoBehaviour {
     public Faction buildingFaction;
 
+    public GameObject selectedIndicator;
+
+    void Awake()
+    {
+        GameObject selectedIndicatorPrefab = Resources.Load<GameObject>("Prefabs/building-selection-indicator");
+        // TODO: change the 0.05f + up to rendering queue
+        this.selectedIndicator = Instantiate(selectedIndicatorPrefab, this.transform.position + 0.05f * Vector3.up, selectedIndicatorPrefab.transform.rotation);
+        this.selectedIndicator.transform.parent = this.transform;
+
+        // Building selected indicator starts unselected
+        this.selectedIndicator.SetActive(false);
+    }
+
     public void SetFaction(Faction faction)
     {
         this.buildingFaction = faction;
