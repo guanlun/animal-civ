@@ -7,6 +7,8 @@ public class Buidling : MonoBehaviour {
 
     public GameObject selectedIndicator;
 
+    public bool isSelected;
+
     void Awake()
     {
         GameObject selectedIndicatorPrefab = Resources.Load<GameObject>("Prefabs/building-selection-indicator");
@@ -21,5 +23,11 @@ public class Buidling : MonoBehaviour {
     public void SetFaction(Faction faction)
     {
         this.buildingFaction = faction;
+    }
+
+    public void SetSelected(bool selected)
+    {
+        this.isSelected = selected;
+        this.selectedIndicator.SetActive(selected);
     }
 }

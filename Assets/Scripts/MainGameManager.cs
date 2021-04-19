@@ -27,6 +27,8 @@ public class MainGameManager : MonoBehaviour
     private Unit selectedUnit = null;
     private bool isUnitSelected = false;
 
+    private Buidling selectedBuilding = null;
+
     void Awake()
     {
         float[,] heightMap = TerrainGenerator.GenerateHeightMap(33);
@@ -71,26 +73,26 @@ public class MainGameManager : MonoBehaviour
                             if (unitOnHex) {
                                 if (unitOnHex == this.selectedUnit) {
                                     // Clicking on the hex of the currently selected unit - Check if their are any building on the hex to select
+                                    if (clickedHex.buildingOnHex) {
+                                        this.SetSelectedBuilding(clickedHex.buildingOnHex);
+                                    }
 
                                 } else if (unitOnHex.unitFaction == this.selectedUnit.unitFaction) {
                                     // TODO: friendly unit action
                                 } else {
                                     // Enemy unit
                                     this.selectedUnit.AttackTarget(unitOnHex);
+                                    this.ClearActiveStates();
                                 }
                             } else {
                                 if (clickedHex.isMovable) {
                                     this.selectedUnit.MoveToHex(clickedHex);
                                 }
-                            }
 
-                            this.ClearActiveStates();
-                            this.isUnitSelected = false;
+                                this.ClearActiveStates();
+                            }
                         } else if (clickedHex.unitOnHex) {
-                            this.ClearActiveStates();
-                            clickedHex.SetSelected(true); // TODO: move selected unit state to unit
-                            this.selectedUnit = clickedHex.unitOnHex;
-                            this.isUnitSelected = true;
+                            this.SetSelectedUnit(clickedHex.unitOnHex);
 
                             if (selectedUnit.unitFaction.isPlayerFaction) {
                                 selectedUnit.ComputePossibleActions();
@@ -98,11 +100,15 @@ public class MainGameManager : MonoBehaviour
                                     selectedUnit.ToggleActionStatesDisplay(true);
                                 }
                             }
+                        } else if (clickedHex.buildingOnHex) {
+                            this.SetSelectedBuilding(clickedHex.buildingOnHex);
+                        } else {
+                            // Clicking on a hex that doesn't have any units or buildings on it
+                            this.ClearActiveStates();
                         }
                     } else {
                         // not clicked on any hexes
                         this.ClearActiveStates();
-                        this.isUnitSelected = false;
                     }
                 }
             }
@@ -134,11 +140,34 @@ public class MainGameManager : MonoBehaviour
         }
     }
 
+    private void SetSelectedUnit(Unit unit)
+    {
+        this.ClearActiveStates();
+        unit.SetSelected(true);
+        this.selectedUnit = unit;
+        this.isUnitSelected = true;
+    }
+
+    private void SetSelectedBuilding(Buidling building)
+    {
+        this.ClearActiveStates();
+        building.SetSelected(true);
+        this.selectedBuilding = building;
+    }
+
     private void ClearActiveStates()
     {
         if (this.selectedUnit && this.selectedUnit.isPlayerUnit()) {
-            this.selectedUnit.currentHex.SetSelected(false);
+            this.selectedUnit.SetSelected(false);
             this.selectedUnit.ToggleActionStatesDisplay(false);
+
+            this.selectedUnit = null;
+            this.isUnitSelected = false;
+        }
+
+        if (this.selectedBuilding) {
+            this.selectedBuilding.SetSelected(false);
+            this.selectedBuilding = null;
         }
     }
 

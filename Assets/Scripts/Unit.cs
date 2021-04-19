@@ -13,6 +13,8 @@ public class Unit : MonoBehaviour
     private GameObject bodyGameObject;
 
     private Unit attackTargetUnit;
+
+    private GameObject selectionIndicatorGameObject;
     private GameObject attackTargetIndicatorGameObject;
 
     public Material standByMaterial;
@@ -32,6 +34,7 @@ public class Unit : MonoBehaviour
     void Awake()
     {
         this.bodyGameObject = this.transform.Find("CatBody").gameObject;
+        this.selectionIndicatorGameObject = this.transform.Find("SelectionIndicator").gameObject;
         this.attackTargetIndicatorGameObject = this.transform.Find("AttackTargetIndicator").gameObject;
 
         this.animator = this.GetComponent<Animator>();
@@ -58,6 +61,11 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public void SetSelected(bool selected)
+    {
+        this.selectionIndicatorGameObject.SetActive(selected);
+    }
+
     public bool isPlayerUnit()
     {
         return this.unitFaction.isPlayerFaction;
@@ -67,7 +75,6 @@ public class Unit : MonoBehaviour
     {
         this.transform.rotation = Quaternion.LookRotation(hex.GetCenterPos() - this.gameObject.transform.position, Vector3.up);
         this.currentHex.unitOnHex = null;
-        this.currentHex.SetSelected(false);
         this.SetCurrentHex(hex, true);
 
         // Start the move animation

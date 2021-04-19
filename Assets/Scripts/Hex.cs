@@ -97,11 +97,6 @@ public class Hex : MonoBehaviour {
         return this.terrainType;
     }
 
-    public void SetSelected(bool selected)
-    {
-        this.movableIndicatorGameObject.SetActive(selected);
-    }
-
     public void SetAdjacent(bool isAdjacent)
     {
         this.isMovable = isAdjacent;
