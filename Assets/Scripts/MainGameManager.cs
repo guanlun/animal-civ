@@ -154,7 +154,11 @@ public class MainGameManager : MonoBehaviour
         this.ClearActiveStates();
         building.SetSelected(true);
         this.selectedBuilding = building;
-        this.uiManager.SetProductionMenuUIActive(true);
+
+        if (!building.GetHex().unitOnHex) {
+            // Only show production UI when no other unit is on the hex
+            this.uiManager.SetProductionMenuUIActive(true);
+        }
     }
 
     private void ClearActiveStates()
@@ -196,6 +200,16 @@ public class MainGameManager : MonoBehaviour
         }
     }
 
+    public void CreateUnit(GameObject unitPrefab)
+    {
+        Hex currentHex = this.selectedBuilding.GetHex();
+
+        GameObject unitGameObject = Instantiate(this.unitPrefab, currentHex.transform.position, Quaternion.identity);
+        Unit unit = unitGameObject.GetComponent<Unit>();
+        this.playerFaction.AddUnit(unit);
+        unit.SetCurrentHex(currentHex);
+    }
+
     public void Build(GameObject buildingPrefab)
     {
         Hex currentHex = this.selectedUnit.currentHex;
@@ -209,8 +223,8 @@ public class MainGameManager : MonoBehaviour
         }
 
         GameObject buildingGameObject = Instantiate(buildingPrefab, currentHex.transform.position, Quaternion.AngleAxis(180, Vector3.up));
-
-        currentHex.buildingOnHex = buildingGameObject.GetComponent<Buidling>();
+        Buidling building = buildingGameObject.GetComponent<Buidling>();
+        building.SetHex(currentHex);
         this.playerFaction.AddBuilding(currentHex.buildingOnHex);
     }
 }

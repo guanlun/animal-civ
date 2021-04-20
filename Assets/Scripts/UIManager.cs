@@ -44,6 +44,11 @@ public class UIManager : MonoBehaviour
         this.buildingSelectionUI.SetActive(false);
     }
 
+    public void Produce(GameObject unitPrefab)
+    {
+        this.mainGameManager.CreateUnit(unitPrefab);
+    }
+
     public void ToggleBuildMenuVisibility()
     {
         this.buildingSelectionUI.SetActive(!buildingSelectionUI.activeInHierarchy);

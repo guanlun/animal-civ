@@ -2,12 +2,15 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Buidling : MonoBehaviour {
+public class Buidling : MonoBehaviour
+{
     public Faction buildingFaction;
 
     public GameObject selectedIndicator;
 
     public bool isSelected;
+
+    private Hex currentHex;
 
     void Awake()
     {
@@ -18,6 +21,17 @@ public class Buidling : MonoBehaviour {
 
         // Building selected indicator starts unselected
         this.selectedIndicator.SetActive(false);
+    }
+
+    public void SetHex(Hex hex)
+    {
+        this.currentHex = hex;
+        hex.buildingOnHex = this;
+    }
+
+    public Hex GetHex()
+    {
+        return this.currentHex;
     }
 
     public void SetFaction(Faction faction)
