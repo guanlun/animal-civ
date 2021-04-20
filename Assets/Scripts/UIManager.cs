@@ -10,11 +10,17 @@ public class UIManager : MonoBehaviour
     public GameObject gameManager;
     public MainGameManager mainGameManager;
 
-    public GameObject buildingMenu;
+    // Top-level UI containers for building/producing
+    public GameObject buildingMenuUI;
+    public GameObject productionMenuUI;
+
+    public GameObject buildingSelectionUI;
 
     void Awake()
     {
         this.mainGameManager = this.gameManager.GetComponent<MainGameManager>();
+        this.SetBuildingMenuUIActive(false);
+        this.SetProductionMenuUIActive(false);
     }
 
     public void SetWoodValue(int value)
@@ -22,14 +28,24 @@ public class UIManager : MonoBehaviour
         woodResourceDisplayText.text = value.ToString();
     }
 
+    public void SetBuildingMenuUIActive(bool active)
+    {
+        this.buildingMenuUI.SetActive(active);
+    }
+
+    public void SetProductionMenuUIActive(bool active)
+    {
+        this.productionMenuUI.SetActive(active);
+    }
+
     public void Build(GameObject buildingPrefab)
     {
         this.mainGameManager.Build(buildingPrefab);
-        this.buildingMenu.SetActive(false);
+        this.buildingSelectionUI.SetActive(false);
     }
 
     public void ToggleBuildMenuVisibility()
     {
-        this.buildingMenu.SetActive(!buildingMenu.activeInHierarchy);
+        this.buildingSelectionUI.SetActive(!buildingSelectionUI.activeInHierarchy);
     }
 }

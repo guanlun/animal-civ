@@ -146,6 +146,7 @@ public class MainGameManager : MonoBehaviour
         unit.SetSelected(true);
         this.selectedUnit = unit;
         this.isUnitSelected = true;
+        this.uiManager.SetBuildingMenuUIActive(true);
     }
 
     private void SetSelectedBuilding(Buidling building)
@@ -153,6 +154,7 @@ public class MainGameManager : MonoBehaviour
         this.ClearActiveStates();
         building.SetSelected(true);
         this.selectedBuilding = building;
+        this.uiManager.SetProductionMenuUIActive(true);
     }
 
     private void ClearActiveStates()
@@ -163,11 +165,15 @@ public class MainGameManager : MonoBehaviour
 
             this.selectedUnit = null;
             this.isUnitSelected = false;
+
+            this.uiManager.SetBuildingMenuUIActive(false);
         }
 
         if (this.selectedBuilding) {
             this.selectedBuilding.SetSelected(false);
             this.selectedBuilding = null;
+
+            this.uiManager.SetProductionMenuUIActive(false);
         }
     }
 
