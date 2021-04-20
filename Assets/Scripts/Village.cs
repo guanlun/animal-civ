@@ -2,5 +2,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Farm : Buidling {
+public class Village : Buidling {
+    public override void ComputeResources()
+    {
+        // empty
+    }
 }

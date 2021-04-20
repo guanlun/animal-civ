@@ -23,9 +23,9 @@ public class UIManager : MonoBehaviour
         this.SetProductionMenuUIActive(false);
     }
 
-    public void SetWoodValue(int value)
+    public void SetResourcesValue(FactionResources resources)
     {
-        woodResourceDisplayText.text = value.ToString();
+        woodResourceDisplayText.text = resources.wood.ToString();
     }
 
     public void SetBuildingMenuUIActive(bool active)

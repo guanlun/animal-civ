@@ -60,6 +60,20 @@ public class MainGameManager : MonoBehaviour
             return;
         }
 
+        // Temporary camera move logic for development
+        Vector3 mousePosition = Input.mousePosition;
+        if (mousePosition.x < 30) {
+            Camera.main.transform.Translate(new Vector3(-0.03f, 0, 0));
+        } else if (mousePosition.x > Screen.width - 30) {
+            Camera.main.transform.Translate(new Vector3(0.03f, 0, 0));
+        }
+
+        if (mousePosition.y < 30) {
+            Camera.main.transform.Translate(new Vector3(0, -0.03f, 0));
+        } else if (mousePosition.y > Screen.height - 30) {
+            Camera.main.transform.Translate(new Vector3(0, 0.03f, 0));
+        }
+
         if (Input.GetMouseButtonUp(0)) {
             RaycastHit hit;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit)) {
@@ -189,8 +203,7 @@ public class MainGameManager : MonoBehaviour
         this.ClearActiveStates();
 
         foreach (Buidling buidling in this.playerFaction.buildings) {
-            // TODO: if resource building, add resources
-            this.uiManager.SetWoodValue(10);
+
         }
 
         foreach (Faction faction in this.factions) {

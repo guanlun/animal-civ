@@ -8,9 +8,13 @@ public class Faction
     public List<Buidling> buildings = new List<Buidling>();
 
     public List<Hex> exploredHexes = new List<Hex>();
+
+    private FactionResources resources;
+
     public Faction(bool isPlayerFaction = false)
     {
         this.isPlayerFaction = isPlayerFaction;
+        this.resources = new FactionResources(10, 10, 10);
     }
 
     public void AddUnit(Unit unit)

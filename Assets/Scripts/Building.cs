@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Buidling : MonoBehaviour
+public abstract class Buidling : MonoBehaviour
 {
     public Faction buildingFaction;
 
@@ -10,7 +10,7 @@ public class Buidling : MonoBehaviour
 
     public bool isSelected;
 
-    private Hex currentHex;
+    protected Hex currentHex;
 
     void Awake()
     {
@@ -22,6 +22,8 @@ public class Buidling : MonoBehaviour
         // Building selected indicator starts unselected
         this.selectedIndicator.SetActive(false);
     }
+
+    public abstract void ComputeResources();
 
     public void SetHex(Hex hex)
     {
