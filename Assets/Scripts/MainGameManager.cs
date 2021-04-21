@@ -197,18 +197,15 @@ public class MainGameManager : MonoBehaviour
 
     public void EndTurn()
     {
-        foreach (Unit unit in this.playerFaction.units) {
-            unit.ResetRemainingMoves();
-        }
         this.ClearActiveStates();
 
-        foreach (Buidling buidling in this.playerFaction.buildings) {
-
-        }
+        this.playerFaction.EndTurn();
+        this.uiManager.UpdateResourcesValue();
 
         foreach (Faction faction in this.factions) {
             if (faction != this.playerFaction) {
                 faction.StartTurn();
+                faction.EndTurn();
             }
         }
     }
@@ -239,5 +236,10 @@ public class MainGameManager : MonoBehaviour
         Buidling building = buildingGameObject.GetComponent<Buidling>();
         building.SetHex(currentHex);
         this.playerFaction.AddBuilding(currentHex.buildingOnHex);
+    }
+
+    public Faction GetPlayerFaction()
+    {
+        return this.playerFaction;
     }
 }

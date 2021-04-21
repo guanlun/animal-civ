@@ -288,6 +288,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba376a462439473db9fbd488bd29421, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedIndicator: {fileID: 0}
+  isSelected: 0
+  unitsToProduce: []
 --- !u!1 &5498022910715169461
 GameObject:
   m_ObjectHideFlags: 0

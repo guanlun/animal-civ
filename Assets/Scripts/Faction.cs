@@ -31,10 +31,25 @@ public class Faction
 
     public void StartTurn()
     {
-        foreach (Unit unit in this.units)
-        {
+        foreach (Unit unit in this.units) {
             unit.ComputePossibleActions();
             unit.TakeBestAction();
         }
+    }
+
+    public void EndTurn()
+    {
+        foreach (Unit unit in this.units) {
+            unit.ResetRemainingMoves();
+        }
+
+        foreach (Buidling buidling in this.buildings) {
+            buidling.ComputeResources(this.resources);
+        }
+    }
+
+    public FactionResources GetResources()
+    {
+        return this.resources;
     }
 }

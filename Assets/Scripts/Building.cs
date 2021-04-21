@@ -10,6 +10,9 @@ public abstract class Buidling : MonoBehaviour
 
     public bool isSelected;
 
+    // A list of UI buttons for the units this building can produce
+    public List<GameObject> unitProductionButtons = new List<GameObject>();
+
     protected Hex currentHex;
 
     void Awake()
@@ -23,7 +26,7 @@ public abstract class Buidling : MonoBehaviour
         this.selectedIndicator.SetActive(false);
     }
 
-    public abstract void ComputeResources();
+    public abstract void ComputeResources(FactionResources resources);
 
     public void SetHex(Hex hex)
     {

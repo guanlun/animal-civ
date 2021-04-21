@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public Text foodResourceDisplayText;
     public Text woodResourceDisplayText;
+    public Text ironResourceDisplayText;
 
     public GameObject gameManager;
     public MainGameManager mainGameManager;
@@ -23,9 +25,12 @@ public class UIManager : MonoBehaviour
         this.SetProductionMenuUIActive(false);
     }
 
-    public void SetResourcesValue(FactionResources resources)
+    public void UpdateResourcesValue()
     {
-        woodResourceDisplayText.text = resources.wood.ToString();
+        FactionResources resources = this.mainGameManager.GetPlayerFaction().GetResources();
+        this.foodResourceDisplayText.text = resources.food.ToString();
+        this.woodResourceDisplayText.text = resources.wood.ToString();
+        this.ironResourceDisplayText.text = resources.iron.ToString();
     }
 
     public void SetBuildingMenuUIActive(bool active)
