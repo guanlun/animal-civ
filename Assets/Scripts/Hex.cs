@@ -45,6 +45,11 @@ public class Hex : MonoBehaviour {
     // game object on top of the hex (e.g. terrain object, building, etc.)
     public GameObject propGameObject;
 
+    // Sprites for resources
+    public GameObject foodSprite;
+    public GameObject woodSprite;
+    public GameObject ironSprite;
+
     public GameObject fogOverlay;
 
     public HashSet<Faction> exploredByFactions = new HashSet<Faction>();
