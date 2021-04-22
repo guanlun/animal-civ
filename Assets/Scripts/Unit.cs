@@ -22,14 +22,7 @@ public class Unit : MonoBehaviour
 
     public Animator animator;
 
-    private bool isMoving = false;
-    private Vector3 movingToPosition;
-    private Vector3 movingFromPosition;
-
     private List<Action> possibleActions = new List<Action>();
-
-    private float moveDuration = 0.15f;
-    private float moveStartTime;
 
     void Awake()
     {
@@ -49,16 +42,6 @@ public class Unit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (this.isMoving) {
-            float moveInterpolation = (Time.time - this.moveStartTime) / this.moveDuration;
-            if (moveInterpolation >= 1) {
-                this.transform.position = this.movingToPosition;
-
-                this.isMoving = false;
-            } else {
-                this.transform.position = Vector3.Lerp(this.movingFromPosition, this.movingToPosition, moveInterpolation);
-            }
-        }
     }
 
     public void SetSelected(bool selected)
@@ -78,7 +61,7 @@ public class Unit : MonoBehaviour
         this.SetCurrentHex(hex, true);
 
         // Start the move animation
-        this.AnimateMoveTo(hex.transform.position);
+        StartCoroutine(this.AnimateMoveTo(hex.transform.position));
 
         this.remainingMoves--;
 
@@ -87,12 +70,16 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void AnimateMoveTo(Vector3 targetPosition)
+    private IEnumerator AnimateMoveTo(Vector3 targetPosition)
     {
-        this.isMoving = true;
-        this.movingToPosition = targetPosition;
-        this.movingFromPosition = this.transform.position;
-        this.moveStartTime = Time.time;
+        float movedRatio = 0f;
+        Vector3 moveVector = targetPosition - this.transform.position;
+        while (movedRatio < 1f) {
+            float delta = Time.deltaTime * 5;
+            movedRatio += delta;
+            this.transform.position += moveVector * delta;
+            yield return null;
+        }
     }
     public void AttackTarget(Unit targetUnit)
     {
