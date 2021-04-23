@@ -5,7 +5,7 @@ Animal Civ
 ### Apr 22, 2021
 First screenshot
 
-![First Screenshot](/Screenshots/2021-04-22.PNG)
+![First Screenshot](/Screenshots/2021-04-22.png)
 ## Brainstorming
 Research: Individual buildings research different technologies?
 Have a few mutually exclusive branches of technologies to research for each building. Once you go down to one path you cannot get technologies of another path.
