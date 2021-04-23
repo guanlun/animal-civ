@@ -232,7 +232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UICanvas: {fileID: 1433428534}
   mainCameraGameObject: {fileID: 963194225}
-  fogCameraGameObject: {fileID: 846677196}
+  mapUICameraGameObject: {fileID: 846677196}
   hexGridParent: {fileID: 875974133}
   hexContainerPrefab: {fileID: 4424440454520611586, guid: f059cb3d593714017bbcb50ba3ff6a40,
     type: 3}
@@ -1260,7 +1260,7 @@ GameObject:
   - component: {fileID: 846677199}
   - component: {fileID: 846677198}
   m_Layer: 0
-  m_Name: FogCamera
+  m_Name: MapUICamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1275,7 +1275,7 @@ Camera:
   m_GameObject: {fileID: 846677196}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -1297,7 +1297,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 512
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1410,7 +1410,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 311
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

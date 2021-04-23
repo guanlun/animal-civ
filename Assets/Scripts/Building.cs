@@ -20,6 +20,7 @@ public abstract class Buidling : MonoBehaviour
         GameObject selectedIndicatorPrefab = Resources.Load<GameObject>("Prefabs/building-selection-indicator");
         // TODO: change the 0.05f + up to rendering queue
         this.selectedIndicator = Instantiate(selectedIndicatorPrefab, this.transform.position + 0.05f * Vector3.up, selectedIndicatorPrefab.transform.rotation);
+        this.selectedIndicator.layer = 9; // Map UI layer
         this.selectedIndicator.transform.parent = this.transform;
 
         // Building selected indicator starts unselected

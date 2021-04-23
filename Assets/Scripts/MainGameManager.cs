@@ -9,10 +9,10 @@ public class MainGameManager : MonoBehaviour
     private UIManager uiManager;
 
     public GameObject mainCameraGameObject;
-    public GameObject fogCameraGameObject;
+    public GameObject mapUICameraGameObject;
 
     private Camera mainCamera;
-    private Camera fogCamera;
+    private Camera mapUICamera;
 
     public GameObject hexGridParent;
 
@@ -38,7 +38,7 @@ public class MainGameManager : MonoBehaviour
     void Awake()
     {
         this.mainCamera = this.mainCameraGameObject.GetComponent<Camera>();
-        this.fogCamera = this.fogCameraGameObject.GetComponent<Camera>();
+        this.mapUICamera = this.mapUICameraGameObject.GetComponent<Camera>();
         float[,] heightMap = TerrainGenerator.GenerateHeightMap(33);
         HexManager.InitHexGrid(this.numRows, this.numCols, heightMap, this.hexGridParent, this.hexContainerPrefab);
 
@@ -72,18 +72,18 @@ public class MainGameManager : MonoBehaviour
         Vector3 mousePosition = Input.mousePosition;
         if (mousePosition.x < 30) {
             this.mainCamera.transform.Translate(new Vector3(-0.03f, 0, 0));
-            this.fogCamera.transform.Translate(new Vector3(-0.03f, 0, 0));
+            this.mapUICamera.transform.Translate(new Vector3(-0.03f, 0, 0));
         } else if (mousePosition.x > Screen.width - 30) {
             this.mainCamera.transform.Translate(new Vector3(0.03f, 0, 0));
-            this.fogCamera.transform.Translate(new Vector3(0.03f, 0, 0));
+            this.mapUICamera.transform.Translate(new Vector3(0.03f, 0, 0));
         }
 
         if (mousePosition.y < 30) {
             this.mainCamera.transform.Translate(new Vector3(0, -0.03f, 0));
-            this.fogCamera.transform.Translate(new Vector3(0, -0.03f, 0));
+            this.mapUICamera.transform.Translate(new Vector3(0, -0.03f, 0));
         } else if (mousePosition.y > Screen.height - 30) {
             this.mainCamera.transform.Translate(new Vector3(0, 0.03f, 0));
-            this.fogCamera.transform.Translate(new Vector3(0, 0.03f, 0));
+            this.mapUICamera.transform.Translate(new Vector3(0, 0.03f, 0));
         }
 
         if (Input.GetMouseButtonUp(0)) {
@@ -162,7 +162,7 @@ public class MainGameManager : MonoBehaviour
 
             if (faction.isPlayerFaction) {
                 this.mainCamera.transform.position = unitGameObject.transform.position + new Vector3(0, 10, -10);
-                this.fogCamera.transform.position = unitGameObject.transform.position + new Vector3(0, 10, -10);
+                this.mapUICamera.transform.position = unitGameObject.transform.position + new Vector3(0, 10, -10);
             }
         }
     }

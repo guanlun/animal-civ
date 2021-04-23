@@ -961,7 +961,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5176771186020226539}
   - component: {fileID: 4899986980632764227}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SelectionIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}

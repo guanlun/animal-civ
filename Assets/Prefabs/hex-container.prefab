@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7597960077254558698}
   - component: {fileID: 2979384188290376707}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: MovableIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
