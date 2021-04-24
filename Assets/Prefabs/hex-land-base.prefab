@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8481532468284164368}
   - component: {fileID: 4763593731109160629}
   - component: {fileID: 7349689923023860351}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: hex-land-base
   m_TagString: Untagged
   m_Icon: {fileID: 0}

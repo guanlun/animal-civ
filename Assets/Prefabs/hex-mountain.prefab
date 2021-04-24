@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2881042262294726822}
   - component: {fileID: 1176670101420115715}
   - component: {fileID: 4012892471253595081}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: hex-mountain
   m_TagString: Untagged
   m_Icon: {fileID: 0}

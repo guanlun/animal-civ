@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8074978562250264460}
   - component: {fileID: 5170077041866653737}
   - component: {fileID: 6943208003861329123}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: hex-hill
   m_TagString: Untagged
   m_Icon: {fileID: 0}

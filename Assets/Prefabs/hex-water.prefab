@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6839513172568285179}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: hex-water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,6 +104,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: hex-land-base
       objectReference: {fileID: 0}
+    - target: {fileID: 9151213817533125546, guid: f34203942614e49359f6f26cd74183ff,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f34203942614e49359f6f26cd74183ff, type: 3}
 --- !u!4 &215859169896459535 stripped
@@ -123,6 +128,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: hex-triangles
+      objectReference: {fileID: 0}
+    - target: {fileID: 6295624395156388801, guid: 5d5de78a5058f4342a630f458251f987,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6635312588079243643, guid: 5d5de78a5058f4342a630f458251f987,
         type: 3}

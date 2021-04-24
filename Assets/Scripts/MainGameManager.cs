@@ -8,11 +8,13 @@ public class MainGameManager : MonoBehaviour
     public GameObject UICanvas;
     private UIManager uiManager;
 
-    public GameObject mainCameraGameObject;
+    public GameObject mapCameraGameObject;
     public GameObject mapUICameraGameObject;
+    public GameObject objectCameraGameObject;
 
-    private Camera mainCamera;
+    private Camera mapCamera;
     private Camera mapUICamera;
+    private Camera objectCamera;
 
     public GameObject hexGridParent;
 
@@ -37,8 +39,9 @@ public class MainGameManager : MonoBehaviour
 
     void Awake()
     {
-        this.mainCamera = this.mainCameraGameObject.GetComponent<Camera>();
+        this.mapCamera = this.mapCameraGameObject.GetComponent<Camera>();
         this.mapUICamera = this.mapUICameraGameObject.GetComponent<Camera>();
+        this.objectCamera = this.objectCameraGameObject.GetComponent<Camera>();
         float[,] heightMap = TerrainGenerator.GenerateHeightMap(33);
         HexManager.InitHexGrid(this.numRows, this.numCols, heightMap, this.hexGridParent, this.hexContainerPrefab);
 
@@ -69,26 +72,29 @@ public class MainGameManager : MonoBehaviour
         }
 
         // Temporary camera move logic for development
-        Vector3 mousePosition = Input.mousePosition;
-        if (mousePosition.x < 30) {
-            this.mainCamera.transform.Translate(new Vector3(-0.03f, 0, 0));
+        if (Input.GetKey(KeyCode.A)) {
+            this.mapCamera.transform.Translate(new Vector3(-0.03f, 0, 0));
             this.mapUICamera.transform.Translate(new Vector3(-0.03f, 0, 0));
-        } else if (mousePosition.x > Screen.width - 30) {
-            this.mainCamera.transform.Translate(new Vector3(0.03f, 0, 0));
+            this.objectCamera.transform.Translate(new Vector3(-0.03f, 0, 0));
+        } else if (Input.GetKey(KeyCode.D)) {
+            this.mapCamera.transform.Translate(new Vector3(0.03f, 0, 0));
             this.mapUICamera.transform.Translate(new Vector3(0.03f, 0, 0));
+            this.objectCamera.transform.Translate(new Vector3(0.03f, 0, 0));
         }
 
-        if (mousePosition.y < 30) {
-            this.mainCamera.transform.Translate(new Vector3(0, -0.03f, 0));
+        if (Input.GetKey(KeyCode.S)) {
+            this.mapCamera.transform.Translate(new Vector3(0, -0.03f, 0));
             this.mapUICamera.transform.Translate(new Vector3(0, -0.03f, 0));
-        } else if (mousePosition.y > Screen.height - 30) {
-            this.mainCamera.transform.Translate(new Vector3(0, 0.03f, 0));
+            this.objectCamera.transform.Translate(new Vector3(0, -0.03f, 0));
+        } else if (Input.GetKey(KeyCode.W)) {
+            this.mapCamera.transform.Translate(new Vector3(0, 0.03f, 0));
             this.mapUICamera.transform.Translate(new Vector3(0, 0.03f, 0));
+            this.objectCamera.transform.Translate(new Vector3(0, 0.03f, 0));
         }
 
         if (Input.GetMouseButtonUp(0)) {
             RaycastHit hit;
-            if (Physics.Raycast(this.mainCamera.ScreenPointToRay(Input.mousePosition), out hit)) {
+            if (Physics.Raycast(this.mapCamera.ScreenPointToRay(Input.mousePosition), out hit)) {
                 GameObject hitObject = hit.collider.gameObject;
                 if (hitObject.name == "HitPlane") {
                     Hex clickedHex = HexManager.GetClosestHexObjectAtPosition(hit.point);
@@ -161,8 +167,9 @@ public class MainGameManager : MonoBehaviour
             startingUnit.SetCurrentHex(factionStartingHex);
 
             if (faction.isPlayerFaction) {
-                this.mainCamera.transform.position = unitGameObject.transform.position + new Vector3(0, 10, -10);
+                this.mapCamera.transform.position = unitGameObject.transform.position + new Vector3(0, 10, -10);
                 this.mapUICamera.transform.position = unitGameObject.transform.position + new Vector3(0, 10, -10);
+                this.objectCamera.transform.position = unitGameObject.transform.position + new Vector3(0, 10, -10);
             }
         }
     }
