@@ -233,7 +233,7 @@ MonoBehaviour:
   UICanvas: {fileID: 1433428534}
   mapCameraGameObject: {fileID: 963194225}
   mapUICameraGameObject: {fileID: 846677196}
-  objectCameraGameObject: {fileID: 0}
+  objectCameraGameObject: {fileID: 1160085415}
   hexGridParent: {fileID: 875974133}
   hexContainerPrefab: {fileID: 4424440454520611586, guid: f059cb3d593714017bbcb50ba3ff6a40,
     type: 3}

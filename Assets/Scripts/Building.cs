@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public abstract class Buidling : MonoBehaviour
@@ -49,5 +50,26 @@ public abstract class Buidling : MonoBehaviour
     {
         this.isSelected = selected;
         this.selectedIndicator.SetActive(selected);
+    }
+
+    protected IEnumerator AnimateResourceSpriteMove(GameObject sprite, Vector3 destPosition)
+    {
+        sprite.SetActive(true);
+        float movedRatio = 0f;
+        Vector3 startPosition = sprite.transform.position;
+        Vector3 moveVector = destPosition - startPosition;
+
+        while (movedRatio < 1f) {
+            float delta = Time.deltaTime * 5;
+            movedRatio += delta;
+            // Sprite moves in a parabola
+            sprite.transform.position = startPosition + movedRatio * moveVector + 3.0f * (movedRatio - movedRatio * movedRatio) * Vector3.up;
+            yield return null;
+        }
+
+        sprite.SetActive(false);
+
+        // Move back to start position after animation completes
+        sprite.transform.position = startPosition;
     }
 }
