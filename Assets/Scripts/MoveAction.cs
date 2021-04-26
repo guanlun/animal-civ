@@ -2,15 +2,18 @@ public class MoveAction : Action
 {
     public Hex destHex;
 
-    public MoveAction(Unit unit, Hex destHex)
+    public NavNode navNode;
+
+    public MoveAction(Unit unit, Hex destHex, NavNode navNode)
     {
         this.unit = unit;
         this.destHex = destHex;
+        this.navNode = navNode;
     }
 
     public override void ToggleTargetState(bool toggleOn)
     {
-        this.destHex.SetAdjacent(toggleOn);
+        this.destHex.SetMoveable(toggleOn);
     }
 
     public override void Execute()

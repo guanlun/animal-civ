@@ -102,10 +102,10 @@ public class Hex : MonoBehaviour {
         return this.terrainType;
     }
 
-    public void SetAdjacent(bool isAdjacent)
+    public void SetMoveable(bool isMovable)
     {
-        this.isMovable = isAdjacent;
-        this.movableIndicatorGameObject.SetActive(isAdjacent);
+        this.isMovable = isMovable;
+        this.movableIndicatorGameObject.SetActive(isMovable);
     }
 
     public Vector3 GetCenterPos()

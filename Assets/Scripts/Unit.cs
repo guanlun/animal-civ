@@ -10,6 +10,8 @@ public class Unit : MonoBehaviour
 
     public int remainingMoves = 1;
 
+    private bool isMoving = false;
+
     private GameObject bodyGameObject;
 
     private Unit attackTargetUnit;
@@ -56,12 +58,23 @@ public class Unit : MonoBehaviour
 
     public void MoveToHex(Hex hex)
     {
-        this.transform.rotation = Quaternion.LookRotation(hex.GetCenterPos() - this.gameObject.transform.position, Vector3.up);
+        NavNode currNavNode = HexManager.GetNavNodeByHex(hex);
+        List<Hex> path = new List<Hex>();
+        path.Add(hex);
+        while (currNavNode.fromHex != this.currentHex) {
+            path.Insert(0, currNavNode.fromHex);
+            currNavNode = HexManager.GetNavNodeByHex(currNavNode.fromHex);
+        }
+
+        foreach (Hex hexAlongPath in path) {
+            this.transform.rotation = Quaternion.LookRotation(hexAlongPath.GetCenterPos() - this.gameObject.transform.position, Vector3.up);
+
+            // Start the move animation
+            StartCoroutine(this.AnimateMoveTo(hexAlongPath.transform.position));
+        }
+
         this.currentHex.unitOnHex = null;
         this.SetCurrentHex(hex, true);
-
-        // Start the move animation
-        StartCoroutine(this.AnimateMoveTo(hex.transform.position));
 
         this.remainingMoves--;
 
@@ -72,6 +85,7 @@ public class Unit : MonoBehaviour
 
     private IEnumerator AnimateMoveTo(Vector3 targetPosition)
     {
+        this.isMoving = true;
         float movedRatio = 0f;
         Vector3 moveVector = targetPosition - this.transform.position;
         while (movedRatio < 1f) {
@@ -80,6 +94,8 @@ public class Unit : MonoBehaviour
             this.transform.position += moveVector * delta;
             yield return null;
         }
+
+        this.isMoving = false;
     }
 
     public void AttackTarget(Unit targetUnit)
@@ -162,7 +178,7 @@ public class Unit : MonoBehaviour
             foreach (KeyValuePair<Hex, NavNode> reachableHexEntry in HexManager.GetHexesByMovementDistance(this.currentHex, 2)) {
                 Hex reachableHex = reachableHexEntry.Key;
 
-                this.possibleActions.Add(new MoveAction(this, reachableHex));
+                this.possibleActions.Add(new MoveAction(this, reachableHex, reachableHexEntry.Value));
 
                 Unit unitOnHex = reachableHex.unitOnHex;
                 if (unitOnHex && unitOnHex.unitFaction != this.unitFaction) { // enemy unit

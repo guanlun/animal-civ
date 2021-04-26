@@ -6,5 +6,6 @@ public class NavNode
     public NavNode(int remainingMoves, Hex fromHex = null)
     {
         this.remainingMoves = remainingMoves;
+        this.fromHex = fromHex;
     }
 }

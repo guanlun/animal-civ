@@ -7,6 +7,8 @@ public class HexManager
     public static int numRows;
     public static int numCols;
 
+    private static Dictionary<Hex, NavNode> currentNavNodeMap;
+
     public static void InitHexGrid(int rowCount, int colCount, float[,] heightMap, GameObject hexGridParent, GameObject hexContainerPrefab)
     {
         int heightMapSize = heightMap.GetLength(0);
@@ -95,7 +97,17 @@ public class HexManager
             hexesInNextIteration = new List<Hex>();
         }
 
+        // Remove the starting hex
+        shortestDistanceLookup.Remove(hex);
+
+        currentNavNodeMap = shortestDistanceLookup;
+
         return shortestDistanceLookup;
+    }
+
+    public static NavNode GetNavNodeByHex(Hex hex)
+    {
+        return currentNavNodeMap[hex];
     }
 
     private static void GetHexesByMovementDistanceRecur(Hex hex, int distance, HashSet<Hex> existingHexes)
