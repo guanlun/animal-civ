@@ -159,7 +159,9 @@ public class Unit : MonoBehaviour
     {
         this.possibleActions.Clear();
         if (this.remainingMoves > 0) {
-            foreach (Hex reachableHex in HexManager.GetHexesByMovementDistance(this.currentHex, 2)) {
+            foreach (KeyValuePair<Hex, NavNode> reachableHexEntry in HexManager.GetHexesByMovementDistance(this.currentHex, 2)) {
+                Hex reachableHex = reachableHexEntry.Key;
+
                 this.possibleActions.Add(new MoveAction(this, reachableHex));
 
                 Unit unitOnHex = reachableHex.unitOnHex;

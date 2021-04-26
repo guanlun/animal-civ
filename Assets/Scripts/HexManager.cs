@@ -65,14 +65,37 @@ public class HexManager
         return hexList;
     }
 
-    public static HashSet<Hex> GetHexesByMovementDistance(Hex hex, int distance)
+    public static Dictionary<Hex, NavNode> GetHexesByMovementDistance(Hex hex, int distance)
     {
-        HashSet<Hex> results = new HashSet<Hex>();
-        GetHexesByMovementDistanceRecur(hex, distance, results);
+        // HashSet<HexPathData> results = new HashSet<HexPathData>();
+        Dictionary<Hex, NavNode> shortestDistanceLookup = new Dictionary<Hex, NavNode>();
+        shortestDistanceLookup.Add(hex, new NavNode(distance));
 
-        // remove the original hex
-        results.Remove(hex);
-        return results;
+        List<Hex> hexesInCurrentIteration = new List<Hex>();
+        List<Hex> hexesInNextIteration = new List<Hex>();
+
+        // Start from the current hex
+        hexesInCurrentIteration.Add(hex);
+
+        while (hexesInCurrentIteration.Count > 0) {
+            foreach (Hex currentHex in hexesInCurrentIteration) {
+                foreach (Hex adjacentHex in GetAdjacentHexes(currentHex)) {
+                    NavNode currentNavNode = shortestDistanceLookup[currentHex];
+                    int remainingMoves = currentNavNode.remainingMoves - adjacentHex.GetMovementCost();
+                    if (remainingMoves >= 0) {
+                        if (!shortestDistanceLookup.ContainsKey(adjacentHex) || remainingMoves < shortestDistanceLookup[adjacentHex].remainingMoves) {
+                            // Hex not visited before, or visited before but the new path has a shorter distance
+                            shortestDistanceLookup[adjacentHex] = new NavNode(remainingMoves, currentHex);
+                            hexesInNextIteration.Add(adjacentHex);
+                        }
+                    }
+                }
+            }
+            hexesInCurrentIteration = hexesInNextIteration;
+            hexesInNextIteration = new List<Hex>();
+        }
+
+        return shortestDistanceLookup;
     }
 
     private static void GetHexesByMovementDistanceRecur(Hex hex, int distance, HashSet<Hex> existingHexes)

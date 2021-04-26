@@ -166,6 +166,8 @@ public class Hex : MonoBehaviour {
                 return 2;
             case TerrainType.Water:
                 return 100;
+            case TerrainType.Mountain:
+                return 100;
             default:
                 return 1;
         }
