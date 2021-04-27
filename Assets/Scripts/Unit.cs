@@ -65,13 +65,9 @@ public class Unit : MonoBehaviour
             path.Insert(0, currNavNode.fromHex);
             currNavNode = HexManager.GetNavNodeByHex(currNavNode.fromHex);
         }
+        path.Insert(0, this.currentHex);
 
-        foreach (Hex hexAlongPath in path) {
-            this.transform.rotation = Quaternion.LookRotation(hexAlongPath.GetCenterPos() - this.gameObject.transform.position, Vector3.up);
-
-            // Start the move animation
-            StartCoroutine(this.AnimateMoveTo(hexAlongPath.transform.position));
-        }
+        StartCoroutine(this.AnimateMoveAlongPath(path));
 
         this.currentHex.unitOnHex = null;
         this.SetCurrentHex(hex, true);
@@ -83,11 +79,24 @@ public class Unit : MonoBehaviour
         }
     }
 
-    private IEnumerator AnimateMoveTo(Vector3 targetPosition)
+    private IEnumerator AnimateMoveAlongPath(List<Hex> path)
+    {
+        for (int i = 0; i < path.Count - 1; i++) {
+            Vector3 fromPosition = path[i].GetCenterPos();
+            Vector3 toPosition = path[i + 1].GetCenterPos();
+
+            // Start the move animation
+            yield return StartCoroutine(this.AnimateMoveTo(fromPosition, toPosition));
+        }
+    }
+
+    private IEnumerator AnimateMoveTo(Vector3 fromPosition, Vector3 toPosition)
     {
         this.isMoving = true;
+        this.transform.rotation = Quaternion.LookRotation(toPosition - fromPosition, Vector3.up);
+
         float movedRatio = 0f;
-        Vector3 moveVector = targetPosition - this.transform.position;
+        Vector3 moveVector = toPosition - fromPosition;
         while (movedRatio < 1f) {
             float delta = Time.deltaTime * 5;
             movedRatio += delta;
