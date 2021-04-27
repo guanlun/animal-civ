@@ -83,9 +83,15 @@ public class HexManager
             foreach (Hex currentHex in hexesInCurrentIteration) {
                 foreach (Hex adjacentHex in GetAdjacentHexes(currentHex)) {
                     NavNode currentNavNode = shortestDistanceLookup[currentHex];
-                    int remainingMoves = currentNavNode.remainingMoves - adjacentHex.GetMovementCost();
-                    if (remainingMoves >= 0) {
-                        if (!shortestDistanceLookup.ContainsKey(adjacentHex) || remainingMoves < shortestDistanceLookup[adjacentHex].remainingMoves) {
+                    if (currentNavNode.remainingMoves > 0) {
+                        Navigability adjacentHexNavigability = adjacentHex.GetNavigability();
+
+                        if (!adjacentHexNavigability.isNavigable) {
+                            continue;
+                        }
+
+                        int remainingMoves = currentNavNode.remainingMoves - adjacentHexNavigability.movementCost;
+                        if (!shortestDistanceLookup.ContainsKey(adjacentHex) || remainingMoves > shortestDistanceLookup[adjacentHex].remainingMoves) {
                             // Hex not visited before, or visited before but the new path has a shorter distance
                             shortestDistanceLookup[adjacentHex] = new NavNode(remainingMoves, currentHex);
                             hexesInNextIteration.Add(adjacentHex);
@@ -108,22 +114,6 @@ public class HexManager
     public static NavNode GetNavNodeByHex(Hex hex)
     {
         return currentNavNodeMap[hex];
-    }
-
-    private static void GetHexesByMovementDistanceRecur(Hex hex, int distance, HashSet<Hex> existingHexes)
-    {
-        if (distance <= 0) {
-            return;
-        }
-
-        foreach (Hex adjacentHex in GetAdjacentHexes(hex)) {
-            int nextDistance = distance - adjacentHex.GetMovementCost();
-
-            if (nextDistance >= 0) {
-                existingHexes.Add(adjacentHex);
-                GetHexesByMovementDistanceRecur(adjacentHex, nextDistance, existingHexes);
-            }
-        }
     }
 
     public static HashSet<Hex> GetHexesByVisibleDistance(Hex hex)

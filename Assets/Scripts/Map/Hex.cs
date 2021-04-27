@@ -158,18 +158,19 @@ public class Hex : MonoBehaviour {
         }
     }
 
-    public int GetMovementCost()
+    public Navigability GetNavigability()
     {
         switch (this.terrainType) {
             case TerrainType.Forest:
+                return Navigability.forestNavigability;
             case TerrainType.Hill:
-                return 2;
+                return Navigability.hillNavigability;
             case TerrainType.Water:
-                return 100;
+                return Navigability.waterNavigability;
             case TerrainType.Mountain:
-                return 100;
+                return Navigability.mountainNavigability;
             default:
-                return 1;
+                return Navigability.plainNavigability;
         }
     }
 }
