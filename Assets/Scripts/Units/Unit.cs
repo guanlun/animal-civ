@@ -148,7 +148,7 @@ public class Unit : MonoBehaviour
     public void ResetRemainingMoves()
     {
         this.remainingMoves = 1;
-        this.bodyGameObject.GetComponent<SkinnedMeshRenderer>().material = standByMaterial;
+        // this.bodyGameObject.GetComponent<SkinnedMeshRenderer>().material = standByMaterial;
     }
 
     public void SetAttackTargetIndicatorActive(bool active)
