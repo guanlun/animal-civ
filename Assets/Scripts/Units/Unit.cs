@@ -75,7 +75,7 @@ public class Unit : MonoBehaviour
         this.remainingMoves--;
 
         if (this.remainingMoves == 0) {
-            this.bodyGameObject.GetComponent<SkinnedMeshRenderer>().material = outOfMoveMaterial;
+            // this.bodyGameObject.GetComponent<SkinnedMeshRenderer>().material = outOfMoveMaterial;
         }
     }
 

@@ -241,7 +241,7 @@ MonoBehaviour:
     type: 3}
   waterHexGridPrefab: {fileID: 8559172054173841334, guid: 6a40cd26f5d1d482f94659548eb5dfd0,
     type: 3}
-  unitPrefab: {fileID: 3022386883644420232, guid: 2c1fe82aa40514ba8b929924a5d9b2d2,
+  unitPrefab: {fileID: 801539007863116064, guid: 06cd83170f01f483ca8e3a687f325215,
     type: 3}
   lumberMillPrefab: {fileID: 5421838896137245598, guid: 18c2e81bff8994db09e619fa03ad4856,
     type: 3}
