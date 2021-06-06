@@ -28,7 +28,7 @@ public class Unit : MonoBehaviour
 
     void Awake()
     {
-        this.bodyGameObject = this.transform.Find("CatBody").gameObject;
+        // this.bodyGameObject = this.transform.Find("CatBody").gameObject;
         this.selectionIndicatorGameObject = this.transform.Find("SelectionIndicator").gameObject;
         this.attackTargetIndicatorGameObject = this.transform.Find("AttackTargetIndicator").gameObject;
 
@@ -199,17 +199,17 @@ public class Unit : MonoBehaviour
 
     public void TakeBestAction()
     {
-        float maxScore = 0f;
-        Action argMaxAction = null;
-        foreach (Action action in this.possibleActions) {
-            float actionScore = action.GetResultScore();
-            if (actionScore > maxScore) {
-                maxScore = actionScore;
-                argMaxAction = action;
-            }
-        }
+        // float maxScore = 0f;
+        // Action argMaxAction = null;
+        // foreach (Action action in this.possibleActions) {
+        //     float actionScore = action.GetResultScore();
+        //     if (actionScore > maxScore) {
+        //         maxScore = actionScore;
+        //         argMaxAction = action;
+        //     }
+        // }
 
-        argMaxAction.Execute();
+        // argMaxAction.Execute();
     }
 
     public void ToggleActionStatesDisplay(bool toggleOn)

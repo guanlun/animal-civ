@@ -16,3 +16,6 @@ Have a few mutually exclusive branches of technologies to research for each buil
 
 ### UI
 When each turn ends, play an animation of resource gathering - each tile moves resource to building, building moves resource to the UI text.
+
+## TILs
+* Export as FBX to have all the animations included when opening in unity.
