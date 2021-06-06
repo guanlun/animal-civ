@@ -10,8 +10,6 @@ public class Unit : MonoBehaviour
 
     public int remainingMoves = 1;
 
-    private bool isMoving = false;
-
     private GameObject bodyGameObject;
 
     private Unit attackTargetUnit;
@@ -67,6 +65,8 @@ public class Unit : MonoBehaviour
         }
         path.Insert(0, this.currentHex);
 
+        this.animator.SetBool("isMoving", true);
+
         StartCoroutine(this.AnimateMoveAlongPath(path));
 
         this.currentHex.unitOnHex = null;
@@ -88,23 +88,22 @@ public class Unit : MonoBehaviour
             // Start the move animation
             yield return StartCoroutine(this.AnimateMoveTo(fromPosition, toPosition));
         }
+
+        this.animator.SetBool("isMoving", false);
     }
 
     private IEnumerator AnimateMoveTo(Vector3 fromPosition, Vector3 toPosition)
     {
-        this.isMoving = true;
         this.transform.rotation = Quaternion.LookRotation(toPosition - fromPosition, Vector3.up);
 
         float movedRatio = 0f;
         Vector3 moveVector = toPosition - fromPosition;
         while (movedRatio < 1f) {
-            float delta = Time.deltaTime * 5;
+            float delta = Time.deltaTime * 2;
             movedRatio += delta;
             this.transform.position += moveVector * delta;
             yield return null;
         }
-
-        this.isMoving = false;
     }
 
     public void AttackTarget(Unit targetUnit)
