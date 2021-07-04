@@ -28,7 +28,8 @@ public class Hex : MonoBehaviour {
 
     public bool isMovable = false;
 
-    public Material grasslandMaterial;
+    public Material grasslandBaseMaterial;
+    public Material mountainBaseMaterial;
 
     public GameObject movableIndicatorGameObject;
 
@@ -70,21 +71,24 @@ public class Hex : MonoBehaviour {
         );
         this.hexBaseGameObject.transform.parent = this.transform;
 
-        if (terrainType == TerrainType.Water) {
-            this.hexBaseGameObject.transform.Find("hex-triangles").GetComponent<Renderer>().material.SetInt("_RowIndex", this.rowIdx);
-        } else {
-            this.hexBaseGameObject.GetComponent<Renderer>().material = grasslandMaterial;
-        }
-
         GameObject terrainPrefab = null;
         switch (this.terrainType) {
+            case TerrainType.Water:
+                this.hexBaseGameObject.transform.Find("hex-triangles").GetComponent<Renderer>().material.SetInt("_RowIndex", this.rowIdx);
+                break;
+            case TerrainType.Grassland:
+                this.hexBaseGameObject.GetComponent<Renderer>().material = grasslandBaseMaterial;
+                break;
             case TerrainType.Forest:
+                this.hexBaseGameObject.GetComponent<Renderer>().material = grasslandBaseMaterial;
                 terrainPrefab = forestTerrainPrefab;
                 break;
             case TerrainType.Hill:
+                this.hexBaseGameObject.GetComponent<Renderer>().material = grasslandBaseMaterial;
                 terrainPrefab = hillTerrainPrefab;
                 break;
             case TerrainType.Mountain:
+                this.hexBaseGameObject.GetComponent<Renderer>().material = mountainBaseMaterial;
                 terrainPrefab = mountainTerrainPrefab;
                 break;
         }

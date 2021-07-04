@@ -213,7 +213,10 @@ MonoBehaviour:
   rowIdx: 0
   colIdx: 0
   isMovable: 0
-  grasslandMaterial: {fileID: 2100000, guid: f5c3dcbc4a392418d91b1bbf35eecba3, type: 2}
+  grasslandBaseMaterial: {fileID: 2100000, guid: f5c3dcbc4a392418d91b1bbf35eecba3,
+    type: 2}
+  mountainBaseMaterial: {fileID: 2100000, guid: 8b421b44dc73c4587ab0638a8be2efe2,
+    type: 2}
   movableIndicatorGameObject: {fileID: 964719155637076122}
   landHexPrefab: {fileID: 9151213817533125546, guid: f34203942614e49359f6f26cd74183ff,
     type: 3}
